@@ -4,9 +4,6 @@ document.addEventListener("click", (e) => {
     const Target = e.target;
     const clickOutsideMenu = Target.closest(".popupMenu") === null;
     const clickOpenMenu = Target.closest("#moreButton") !== null;
-    console.log("CLICK");
-    console.log(Target.closest(".popupMenu"));
-    console.log(Target.closest("#moreButton"));
     if (clickOutsideMenu) {
         if (clickOpenMenu) {
             if (PopupMenu.classList.contains("opened"))
