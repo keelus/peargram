@@ -46,11 +46,11 @@ func GetUserDetails(username string) models.UserDetails {
 func IsUserLoggedIn(c *gin.Context) bool {
 	session := sessions.Default(c)
 	if session.Get("Username") == nil {
-		fmt.Println("User not logged in")
+		// fmt.Println("User not logged in")
 		return false
 	}
 	if session.Get("Username").(string) == "" {
-		fmt.Println("User not logged in")
+		// fmt.Println("User not logged in")
 		return false
 	}
 
