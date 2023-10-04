@@ -13,9 +13,6 @@ import (
 	"peargram/users"
 	"peargram/utils"
 
-	wsHandler "peargram/server/websocketing/handler"
-	"peargram/server/websocketing/ws"
-
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
@@ -205,20 +202,6 @@ func CurrentUserData(c *gin.Context) models.UserDetails {
 
 	userDetails.Username = session.Get("Username").(string)
 	return userDetails
-}
-
-func TempWS(c *gin.Context) { // TODO: DELETE THIS
-	var exampleMessage models.Message
-	exampleMessage = models.Message{
-		ID:        99,
-		Actor:     "lol_es",
-		Target:    "keelus",
-		Content:   "Hello, 🌍",
-		Reactions: nil,
-		Date:      0,
-	}
-
-	ws.NewChatMessage(wsHandler.GetClients(), wsHandler.GetClients()["keelus"], exampleMessage)
 }
 
 func EndSignup(c *gin.Context) {

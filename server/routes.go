@@ -58,30 +58,28 @@ func SetupRouter() *gin.Engine {
 		mainGroup.GET("/profile/:username", RequireLoggedIn, paneHandler.ProfilePane)
 
 		mainGroup.GET("/post/:id", paneHandler.Post)
-
-		mainGroup.GET("temporaryWS", paneHandler.TempWS)
 	}
 
 	authGroup := r.Group("/auth")
 	{
 		authGroup.GET("/signin", RequireNotLoggedIn, paneHandler.Signin)
 		authGroup.GET("/signup", RequireNotLoggedIn, paneHandler.Signup)
-		authGroup.GET("/endSignup", RequireNotUsernameSet, paneHandler.EndSignup)
+		authGroup.GET("/endSignup", RequireLoggedIn, RequireNotUsernameSet, paneHandler.EndSignup)
 	}
 
 	apiGroup := r.Group("/api")
 	{
-		apiGroup.GET("/logout", apiHandler.Logout)
 		apiGroup.GET("/postPreview/:id", RequireLoggedIn, RequireUsernameSet, posts.GetPostPreview)
 
 		apiGroup.GET("/searchUsers/:username", RequireLoggedIn, RequireUsernameSet, apiHandler.GETSearchUsers)
 
 		apiGroup.GET("toggleFollow/:username", RequireLoggedIn, RequireUsernameSet, apiHandler.GETToggleFollow)
 
-		apiGroup.POST("signinEndpoint", apiHandler.POSTSigninEndpoint)
-		apiGroup.POST("signupEndpoint", apiHandler.POSTSignupEndpoint)
+		apiGroup.POST("signinEndpoint", RequireNotLoggedIn, apiHandler.POSTSigninEndpoint)
+		apiGroup.POST("signupEndpoint", RequireNotLoggedIn, apiHandler.POSTSignupEndpoint)
 
-		apiGroup.POST("endSignup", apiHandler.POSTEndSignup)
+		apiGroup.POST("endSignup", RequireLoggedIn, RequireNotUsernameSet, apiHandler.POSTEndSignup)
+		apiGroup.GET("/logout", apiHandler.Logout)
 
 		apiMessagesGroup := apiGroup.Group("/messages")
 		{
