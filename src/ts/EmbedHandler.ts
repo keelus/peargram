@@ -55,6 +55,7 @@ async function LoadEmbedded(target: string, detail: string, event: MouseEvent, p
 			}
 		}
 
+		document.querySelector("head > title")?.remove()
 		document.querySelectorAll("body > .content")[0].remove()
 		document.querySelectorAll("body")[0].innerHTML += result
 

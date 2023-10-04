@@ -32,6 +32,7 @@ document.addEventListener("mouseup", (e) => {
     }
 });
 function LoadEmbedded(target, detail, event, pushToHistory) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         let backupTarget = target;
         if (target === "index")
@@ -53,6 +54,7 @@ function LoadEmbedded(target, detail, event, pushToHistory) {
                     console.log(`Error!`);
                 }
             }
+            (_a = document.querySelector("head > title")) === null || _a === void 0 ? void 0 : _a.remove();
             document.querySelectorAll("body > .content")[0].remove();
             document.querySelectorAll("body")[0].innerHTML += result;
             const loadEvent = new PaneLoadedEvent(backupTarget, detail, target);
