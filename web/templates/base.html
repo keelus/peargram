@@ -12,6 +12,10 @@
 	<link rel="stylesheet" href="/assets/css/search.css">
 	<link rel="stylesheet" href="/assets/css/post.css">
 	<link rel="stylesheet" href="/assets/css/error.css">
+	<link rel="stylesheet" href="/assets/css/popMenu.css">
+	<link rel="stylesheet" href="/assets/css/settings.css">
+	<link rel="stylesheet" href="/assets/css/activity.css">
+	<link rel="stylesheet" href="/assets/css/saved.css">
 
 	<link rel="stylesheet" href="/assets/media/fonts/webfont/tabler-icons.min.css">
 
@@ -37,7 +41,37 @@
 		{{ template "profile.html". }}
 	{{ else if eq .LoadPane "post" }}
 		{{ template "post.html". }}
+	{{ else if eq .LoadPane "settings" }}
+		{{ template "settings.html". }}
+	{{ else if eq .LoadPane "activity" }}
+		{{ template "activity.html". }}
+	{{ else if eq .LoadPane "saved" }}
+		{{ template "saved.html". }}
 	{{ end }}
+
+	<div class="popMenu">
+		<div class="pmItem EmbeddedLoad" target="settings" detail="">
+			<div class="icon"><i class="ti ti-settings"></i></div>
+			<div class="text">Settings</div>
+		</div>
+		<div class="pmItem EmbeddedLoad" target="activity" detail="">
+			<div class="icon"><i class="ti ti-history"></i></div>
+			<div class="text">Your activity</div>
+		</div>
+		<div class="pmItem EmbeddedLoad" target="saved" detail="">
+			<div class="icon"><i class="ti ti-bookmark"></i></div>
+			<div class="text">Saved</div>
+		</div>
+		<div class="pmItem" id="switchTheme">
+			<div class="icon"><i class="ti ti-moon-filled"></i></div>
+			<div class="text">Switch to light mode</div>
+		</div>
+		<div class="divider"></div>
+		<a class="pmItem red" href="/api/logout">
+			<div class="icon"><i class="ti ti-logout"></i></div>
+			<div class="text">Log out</div>
+		</a>
+	</div>
 </body>
 </html>
 

@@ -1,0 +1,66 @@
+@import "global.scss";
+
+.popMenu {
+	background:$background-4;
+	width:250px;
+	display:flex;
+	flex-direction: column;
+	position:fixed;
+	left:58px;
+	bottom:20px;
+	padding:8px;
+	border-radius: 18px;
+
+	& > .pmItem {
+		height:50px;
+		width:250px;
+		padding:16px;
+		box-sizing: border-box;
+		display:flex;
+		align-items: center;
+		border-radius: 10px;
+		transition: all .15s linear;
+		text-decoration: none;
+
+		& > .icon {
+			width:30px;
+
+			& > i {
+				font-size:20px;
+				color:white;
+			}
+	
+		}
+		
+		& > .text {
+			font-size:14px;
+			line-height: 20px;
+			color:white;
+			flex:1;
+		}
+
+		&:hover {
+			cursor:pointer;
+			background:$background-5;
+		}
+
+		&.red:hover {
+			background:$red-2;
+		}
+	}
+
+	& > .divider {
+		height:6px;
+		width:calc(100% + 16px);
+		margin:8px 0;
+		background:$background-5;
+		margin-left:-8px;
+
+	}
+}
+
+@media(max-width:768px) {
+	.popMenu {
+		display:none !important;
+	}
+}

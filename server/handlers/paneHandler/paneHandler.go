@@ -52,6 +52,7 @@ func SearchPane(c *gin.Context) {
 		})
 	}
 }
+
 func MessagesPane(c *gin.Context) {
 	var activeChat models.Chat
 	session := sessions.Default(c)
@@ -216,4 +217,41 @@ func CurrentUserData(c *gin.Context) models.UserDetails {
 func EndSignup(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "endSignup", gin.H{})
+}
+
+func SettingsPane(c *gin.Context) {
+	if c.Query("type") == "short" {
+		c.HTML(http.StatusOK, "settings", gin.H{
+			"User": CurrentUserData(c),
+		})
+	} else {
+		c.HTML(http.StatusOK, "base", gin.H{
+			"LoadPane": "settings",
+			"User":     CurrentUserData(c),
+		})
+	}
+}
+func ActivityPane(c *gin.Context) {
+	if c.Query("type") == "short" {
+		c.HTML(http.StatusOK, "activity", gin.H{
+			"User": CurrentUserData(c),
+		})
+	} else {
+		c.HTML(http.StatusOK, "base", gin.H{
+			"LoadPane": "activity",
+			"User":     CurrentUserData(c),
+		})
+	}
+}
+func SavedPane(c *gin.Context) {
+	if c.Query("type") == "short" {
+		c.HTML(http.StatusOK, "saved", gin.H{
+			"User": CurrentUserData(c),
+		})
+	} else {
+		c.HTML(http.StatusOK, "base", gin.H{
+			"LoadPane": "saved",
+			"User":     CurrentUserData(c),
+		})
+	}
 }

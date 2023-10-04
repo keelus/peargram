@@ -62,6 +62,10 @@ func SetupRouter() *gin.Engine {
 		mainGroup.GET("/profile/:username", paneHandler.ProfilePane)
 
 		mainGroup.GET("/post/:id", paneHandler.Post)
+
+		mainGroup.GET("/settings", paneHandler.SettingsPane)
+		mainGroup.GET("/activity", paneHandler.ActivityPane)
+		mainGroup.GET("/saved", paneHandler.SavedPane)
 	}
 
 	authGroup := r.Group("/auth")
