@@ -1,15 +1,20 @@
 @import "global.scss";
 
-.popMenu {
+.popupMenu {
 	background:$background-4;
 	width:250px;
-	display:flex;
 	flex-direction: column;
 	position:fixed;
 	left:58px;
 	bottom:20px;
 	padding:8px;
 	border-radius: 18px;
+	display:none;
+	z-index:999;
+
+	&.opened {
+		display:flex;
+	}
 
 	& > .pmItem {
 		height:50px;
@@ -60,7 +65,7 @@
 }
 
 @media(max-width:768px) {
-	.popMenu {
+	.popupMenu {
 		display:none !important;
 	}
 }

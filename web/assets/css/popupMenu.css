@@ -35,18 +35,22 @@ body > .content {
   border-radius: 50%;
 }
 
-.popMenu {
+.popupMenu {
   background: #262626;
   width: 250px;
-  display: flex;
   flex-direction: column;
   position: fixed;
   left: 58px;
   bottom: 20px;
   padding: 8px;
   border-radius: 18px;
+  display: none;
+  z-index: 999;
 }
-.popMenu > .pmItem {
+.popupMenu.opened {
+  display: flex;
+}
+.popupMenu > .pmItem {
   height: 50px;
   width: 250px;
   padding: 16px;
@@ -57,27 +61,27 @@ body > .content {
   transition: all 0.15s linear;
   text-decoration: none;
 }
-.popMenu > .pmItem > .icon {
+.popupMenu > .pmItem > .icon {
   width: 30px;
 }
-.popMenu > .pmItem > .icon > i {
+.popupMenu > .pmItem > .icon > i {
   font-size: 20px;
   color: white;
 }
-.popMenu > .pmItem > .text {
+.popupMenu > .pmItem > .text {
   font-size: 14px;
   line-height: 20px;
   color: white;
   flex: 1;
 }
-.popMenu > .pmItem:hover {
+.popupMenu > .pmItem:hover {
   cursor: pointer;
   background: #363636;
 }
-.popMenu > .pmItem.red:hover {
+.popupMenu > .pmItem.red:hover {
   background: rgb(185, 28, 28);
 }
-.popMenu > .divider {
+.popupMenu > .divider {
   height: 6px;
   width: calc(100% + 16px);
   margin: 8px 0;
@@ -86,9 +90,7 @@ body > .content {
 }
 
 @media (max-width: 768px) {
-  .popMenu {
+  .popupMenu {
     display: none !important;
   }
 }
-
-/*# sourceMappingURL=popMenu.css.map */
