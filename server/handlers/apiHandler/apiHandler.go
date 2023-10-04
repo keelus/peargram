@@ -86,16 +86,10 @@ func GETToggleFollow(c *gin.Context) {
 }
 
 func POSTSigninEndpoint(c *gin.Context) {
-	// fmt.Println(c.Request.ParseForm())
-	// fmt.Println(c.PostForm("code"))
-	// fmt.Println(c.Request.Form)
-	// fmt.Println(c.Request.Form.Get("code"))
-
 	credential := c.PostForm("credential")
 	// g_csrf_token := c.PostForm("g_csrf_token")
 	userInfo := decodeToken(credential)
 	userEmail := strings.ToLower(userInfo["email"].(string))
-	// userAvatar := userInfo["picture"]
 
 	DB := database.ConnectDB()
 
@@ -112,7 +106,7 @@ func POSTSigninEndpoint(c *gin.Context) {
 		return
 	}
 
-	// Check DB
+	// Check if user is signed up
 	userExists = false
 	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE lower(email)=?)", userEmail).Scan(&userExists)
 
@@ -121,6 +115,7 @@ func POSTSigninEndpoint(c *gin.Context) {
 		return
 	}
 
+	// If exists, then fetch it's username
 	username := ""
 	err := DB.QueryRow("SELECT username FROM users WHERE lower(email)=?", userEmail).Scan(&username)
 	if err != nil {
@@ -167,7 +162,7 @@ func POSTSignupEndpoint(c *gin.Context) {
 		}
 	}
 
-	// Check DB
+	// Check if user is signed up
 	userExists := false
 	DB := database.ConnectDB()
 	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE lower(email)=?)", userEmail).Scan(&userExists)
