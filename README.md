@@ -12,7 +12,7 @@ SIGNIN_ENDPOINT = /api/signinEndpoint
 ```
 
 #### Database
-Rename `database/database_empty.db` to `database/database.sb`
+Rename `database/database_empty.db` to `database/database.db`
 
 
 ## License
