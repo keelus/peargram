@@ -72,11 +72,11 @@ func SetupRouter() *gin.Engine {
 	apiGroup := r.Group("/api")
 	{
 		apiGroup.GET("/logout", apiHandler.Logout)
-		apiGroup.GET("/postPreview/:id", RequireLoggedIn, RequireNotUsernameSet, posts.GetPostPreview)
+		apiGroup.GET("/postPreview/:id", RequireLoggedIn, RequireUsernameSet, posts.GetPostPreview)
 
-		apiGroup.GET("/searchUsers/:username", RequireLoggedIn, RequireNotUsernameSet, apiHandler.GETSearchUsers)
+		apiGroup.GET("/searchUsers/:username", RequireLoggedIn, RequireUsernameSet, apiHandler.GETSearchUsers)
 
-		apiGroup.GET("toggleFollow/:username", RequireLoggedIn, RequireNotUsernameSet, apiHandler.GETToggleFollow)
+		apiGroup.GET("toggleFollow/:username", RequireLoggedIn, RequireUsernameSet, apiHandler.GETToggleFollow)
 
 		apiGroup.POST("signinEndpoint", apiHandler.POSTSigninEndpoint)
 		apiGroup.POST("signupEndpoint", apiHandler.POSTSignupEndpoint)
@@ -85,14 +85,14 @@ func SetupRouter() *gin.Engine {
 
 		apiMessagesGroup := apiGroup.Group("/messages")
 		{
-			apiMessagesGroup.Use(RequireLoggedIn, RequireNotUsernameSet)
+			apiMessagesGroup.Use(RequireLoggedIn, RequireUsernameSet)
 			apiMessagesGroup.GET("/getMessages/:username", messagesApi.GETMessages)
 			apiMessagesGroup.GET("/sendMessage/:target/:content", messagesApi.GETSendMessage) // TODO: POST
 		}
 
 		apiNotificationsGroup := apiGroup.Group("/notifications")
 		{
-			apiNotificationsGroup.Use(RequireLoggedIn, RequireNotUsernameSet)
+			apiNotificationsGroup.Use(RequireLoggedIn, RequireUsernameSet)
 			apiNotificationsGroup.GET("/getNotifications/:username", notificationsApi.GETNotifications)
 		}
 

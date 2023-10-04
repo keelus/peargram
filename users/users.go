@@ -54,7 +54,7 @@ func IsUserLoggedIn(c *gin.Context) bool {
 		return false
 	}
 
-	fmt.Println("User logged in")
+	// fmt.Println("User logged in")
 	return true
 }
 
