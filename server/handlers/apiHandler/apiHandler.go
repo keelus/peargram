@@ -14,8 +14,6 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 	"gopkg.in/square/go-jose.v2/jwt"
 )
 
@@ -85,30 +83,6 @@ func GETToggleFollow(c *gin.Context) {
 	if !currentlyFollowing {
 		notifications.SendNotification(models.NOTIFICATION_FOLLOW, currentUsername, userStr, -1)
 	}
-}
-
-var googleOauthConfigSignIn = &oauth2.Config{
-	RedirectURL:  "http://localhost/api/signinEndpoint",
-	ClientID:     "871553305028-f0jmpj0ve485brejh0deg92td4pdgool.apps.googleusercontent.com",
-	ClientSecret: "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",
-	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"},
-	Endpoint:     google.Endpoint,
-}
-var googleOauthConfigSignUp = &oauth2.Config{
-	RedirectURL:  "http://localhost/api/signupEndpoint",
-	ClientID:     "871553305028-f0jmpj0ve485brejh0deg92td4pdgool.apps.googleusercontent.com",
-	ClientSecret: "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",
-	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"},
-	Endpoint:     google.Endpoint,
-}
-
-func GETSignin(c *gin.Context) {
-	redirectURL := googleOauthConfigSignIn.AuthCodeURL("randomized")
-	c.Redirect(http.StatusTemporaryRedirect, redirectURL)
-}
-func GETSignup(c *gin.Context) {
-	redirectURL := googleOauthConfigSignUp.AuthCodeURL("randomized")
-	c.Redirect(http.StatusTemporaryRedirect, redirectURL)
 }
 
 func POSTSigninEndpoint(c *gin.Context) {
