@@ -2,10 +2,12 @@ package users
 
 import (
 	"fmt"
+	"os"
 	"peargram/database"
 	"peargram/follows"
 	"peargram/models"
 	"peargram/posts"
+	"peargram/utils"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -15,6 +17,15 @@ func GetAvatar(username string) string {
 	DB := database.ConnectDB()
 	var avatar string
 	DB.QueryRow("SELECT avatar FROM userDetails WHERE username=?", username).Scan(&avatar)
+
+	if avatar == "" {
+		data, err := os.ReadFile(utils.GetAbsolutePath() + "/web/assets/media/images/defaultAvatar.webp")
+		if err != nil {
+			fmt.Println(err)
+			return ""
+		}
+		return string(data)
+	}
 
 	return avatar
 }

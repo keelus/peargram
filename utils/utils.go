@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -55,4 +56,9 @@ func GetEnv(key string) string {
 	}
 
 	return value
+}
+
+func GetAbsolutePath() string {
+	path, _ := os.Getwd()
+	return path
 }

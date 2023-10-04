@@ -2,6 +2,7 @@ package apiHandler
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"peargram/database"
 	"peargram/models"
@@ -169,12 +170,28 @@ func POSTSigninEndpoint(c *gin.Context) {
 }
 
 func POSTSignupEndpoint(c *gin.Context) {
+	var userAvatar string
 	credential := c.PostForm("credential")
 
 	userInfo := decodeToken(credential)
+
 	userEmail := strings.ToLower(userInfo["email"].(string))
-	// userAvatar := userInfo["picture"]
-	// TODO: ^
+	userAvatarUrl := userInfo["picture"].(string)
+
+	avatarSizePattern := `=s\d+-c`
+	regex := regexp.MustCompile(avatarSizePattern)
+
+	userAvatarUrl = regex.ReplaceAllString(userAvatarUrl, "=s200-c")
+
+	response, err := http.Get(userAvatarUrl)
+	if err == nil {
+		userAvatarBytes, err := ioutil.ReadAll(response.Body)
+		defer response.Body.Close()
+
+		if err == nil {
+			userAvatar = string(userAvatarBytes)
+		}
+	}
 
 	// Check DB
 	userExists := false
@@ -195,7 +212,7 @@ func POSTSignupEndpoint(c *gin.Context) {
 
 	if !userExists {
 		date := time.Now().Unix()
-		_, err := DB.Query("INSERT INTO pendingSignups (googleEmail, date) VALUES(?, ?)", userEmail, date)
+		_, err := DB.Query("INSERT INTO pendingSignups (googleEmail, date, avatar) VALUES(?, ?, ?)", userEmail, date, userAvatar)
 		if err != nil {
 			fmt.Println(err)
 			c.Status(http.StatusInternalServerError)
@@ -267,8 +284,20 @@ func POSTEndSignup(c *gin.Context) {
 	}
 
 	// Then user can be registered:
+	// Get his avatar
+	userAvatar := ""
+	err := DB.QueryRow("SELECT avatar FROM pendingSignups WHERE lower(googleEmail)=?", currentEmail).Scan(&userAvatar)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(userAvatar)
 
-	_, err := DB.Exec("DELETE FROM pendingSignups WHERE lower(googleEmail)=?", currentEmail)
+	if pendingSignupExists { // TODO: Handle if exists on error side. Log in? Clear session? Apply session?
+		c.JSON(http.StatusBadRequest, gin.H{"errorID": ERROR_UNEXPECTED})
+		return
+	}
+
+	_, err = DB.Exec("DELETE FROM pendingSignups WHERE lower(googleEmail)=?", currentEmail)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"errorID": ERROR_UNEXPECTED})
@@ -283,7 +312,7 @@ func POSTEndSignup(c *gin.Context) {
 		return
 	}
 
-	_, err = DB.Exec("INSERT INTO userDetails (username, name, description, avatar) VALUES (?, ?, ?, ?)", desiredUsnm, desiredUsnm, "", "")
+	_, err = DB.Exec("INSERT INTO userDetails (username, name, description, avatar) VALUES (?, ?, ?, ?)", desiredUsnm, desiredUsnm, "", userAvatar)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"errorID": ERROR_UNEXPECTED})
