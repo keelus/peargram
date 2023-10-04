@@ -55,6 +55,7 @@ func SetupRouter() *gin.Engine {
 		mainGroup.GET("/messages", RequireLoggedIn, paneHandler.MessagesPane)
 		mainGroup.GET("/messages/:username", RequireLoggedIn, paneHandler.MessagesPane)
 		mainGroup.GET("/notifications", RequireLoggedIn, paneHandler.NotificationsPane)
+		mainGroup.GET("/profile", RequireLoggedIn, paneHandler.ProfilePane)
 		mainGroup.GET("/profile/:username", RequireLoggedIn, paneHandler.ProfilePane)
 
 		mainGroup.GET("/post/:id", paneHandler.Post)

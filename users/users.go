@@ -30,17 +30,20 @@ func GetAvatar(username string) string {
 	return avatar
 }
 
-func GetUserDetails(username string) models.UserDetails {
+func GetUserDetails(username string) (models.UserDetails, bool) {
 	var userDetails models.UserDetails
 
 	DB := database.ConnectDB()
-	DB.QueryRowx("SELECT * FROM userDetails WHERE username=?", username).StructScan(&userDetails)
+	err := DB.QueryRowx("SELECT * FROM userDetails WHERE username=?", username).StructScan(&userDetails)
+	if err != nil {
+		return userDetails, false
+	}
 
 	userDetails.PostAmount = posts.GetPostAmount(username)
 	userDetails.FollowerAmount = follows.GetFollowerAmount(username)
 	userDetails.FollowingAmount = follows.GetFollowingAmount(username)
 
-	return userDetails
+	return userDetails, true
 }
 
 func IsUserLoggedIn(c *gin.Context) bool {

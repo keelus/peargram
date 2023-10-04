@@ -114,18 +114,27 @@ func ProfilePane(c *gin.Context) {
 	session := sessions.Default(c)
 	currentUsername := session.Get("Username").(string)
 
+	if username == "" {
+		c.Redirect(http.StatusTemporaryRedirect, fmt.Sprintf("/profile/%s", currentUsername))
+	}
+
 	if username == currentUsername {
 		selfProfile = true
 	}
 
 	var profileData models.UserDetails
-	profileData = users.GetUserDetails(username)
+	profileData, exists := users.GetUserDetails(username)
+	if !exists {
+		c.String(http.StatusNotFound, "404 not found.")
+		return
+	}
+
 	profileData.PostAmount = posts.GetPostAmount(username)
 	profileData.FollowingAmount = follows.GetFollowingAmount(username)
 	profileData.FollowerAmount = follows.GetFollowerAmount(username)
 
 	following := follows.IsFollowing(currentUsername, username)
-	fmt.Println(following)
+
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "profile", gin.H{
 			"User":         CurrentUserData(c),

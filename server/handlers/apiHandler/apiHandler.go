@@ -41,7 +41,7 @@ func GETSearchUsers(c *gin.Context) {
 
 	for _, username := range usernameCoincidences {
 		fmt.Println(username)
-		userDetails := users.GetUserDetails(username)
+		userDetails, _ := users.GetUserDetails(username)
 		userCoincidences = append(userCoincidences, userDetails)
 	}
 
