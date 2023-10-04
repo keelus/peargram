@@ -1,0 +1,56 @@
+$font-1:white;
+$font-2:rgba(255, 255, 255, 0.788);
+$font-3:rgb(168,168,168);
+$background-1:#000000;
+$background-2:#121212;
+$background-3:#1a1a1a;
+$background-4:#262626;
+$background-5:#363636;
+$background-6:#585858;
+
+$blue-1:#0095f6;
+$blue-2:#3797f0;
+$blue-3:#1877f2;
+$green-1:#CED74D;
+$green-2:#a0b913;
+$green-3:#859916;
+$red-1:#F61C2C;
+$red-2:rgb(73, 10, 10);
+body, html {
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+	background:$background-1;
+}
+
+* { 
+	// font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-family: 'Inter';
+}
+
+body {
+	display:flex;
+}
+
+.hDivider {
+	width:100%;
+	height:1px;
+	border-bottom:1px solid $background-5;
+}
+
+body > .content {
+	overflow-y:scroll;
+}
+
+@media(max-width:768px) {
+	body > .content {
+		height:calc(100% - 48px) !important;
+	}
+}
+
+.avatarBase {
+	background-size: cover;
+	background-position: center;
+	border-radius: 50%;
+}

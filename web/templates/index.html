@@ -1,0 +1,44 @@
+<div class="content index">
+	<div class="main">
+		<div class="title">
+			Following
+		</div>
+		<div class="hDivider"></div>
+		<div class="posts">
+			{{ range $i, $Post := .FeedPosts}}
+				<div class="post">
+					<div class="top">
+						<div class="avatar EmbeddedLoad" target="profile" detail="{{ $Post.Username }}" style="background-image:url(/api/users/getAvatar/{{- $Post.Username -}})"></div>
+						<div class="username EmbeddedLoad" target="profile" detail="{{ $Post.Username }}">{{ $Post.Username }} <!--<i class="ti ti-rosette-filled verified"></i>--></div>
+						<div class="date">• {{ renderDate $Post.Date }}</div>
+						<div class="options"><i class="ti ti-dots"></i></div>
+					</div>
+					<div class="content">
+						<img src="data:image/png;base64,{{- renderImage $Post.Content -}}" />
+						<!-- <img src="/assets/media/images/examplePost2.jpg" alt=""> -->
+					</div>
+					<div class="bottom">
+						<div class="actions">
+							<div class="button">
+								<i class="ti ti-heart"></i>
+							</div>
+							<div class="button">
+								<i class="ti ti-message-circle-2"></i>
+							</div>
+							<div class="button">
+								<i class="ti ti-send"></i>
+							</div>
+							<div class="button">
+								<i class="ti ti-bookmark"></i>
+							</div>
+						</div>
+						<div class="likes EmbeddedLoad" target="post" detail="{{ $Post.ID }}">{{ $Post.Likes }} likes</div>
+						<div class="comments EmbeddedLoad" target="post" detail="{{ $Post.ID }}">View all {{ $Post.Comments }} comments</div>
+					</div>
+				</div>
+				<div class="hDivider"></div>
+			{{ end }}
+			<div class="morePostsMessage">Loading more posts...</div>
+		</div>
+	</div>
+</div>

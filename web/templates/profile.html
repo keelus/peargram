@@ -1,0 +1,75 @@
+<div class="content profile">
+	<div class="main">
+		<div class="header">
+			<div class="avatar">
+				<img src="/api/users/getAvatar/{{- .Profile.Username -}}" alt="">
+			</div>
+			<div class="details">
+				<div class="header">
+					<div class="username">{{ .Profile.Username }} </div>
+					<div class="buttons">
+						{{ if .SelfProfile }}
+							<div class="button">Edit profile</div>
+						{{ else }}
+							{{ if .Following }}
+								<div class="button following" id="FollowButton">Following</div>
+							{{ else }}
+								<div class="button follow" id="FollowButton">Follow</div>
+							{{ end }}
+						{{ end }}
+					</div>
+				</div>
+				<div class="stats">
+					<div class="stat">
+						<div class="value">{{ .Profile.PostAmount}}</div>
+						<div class="name">post</div>
+					</div>
+					<div class="stat">
+						<div class="value">{{ .Profile.FollowerAmount}}</div>
+						<div class="name">followers</div>
+					</div>
+					<div class="stat">
+						<div class="value">{{ .Profile.FollowingAmount}}</div>
+						<div class="name">following</div>
+					</div>
+				</div>
+				<div class="description">{{ .Profile.Description }}</div>
+				<div class="link">
+					<i class="ti ti-link"></i>
+					<div class="text">XXXX.XXXX</div>
+				</div>
+			</div>
+		</div>
+		<div class="statsMobile">
+			<div class="stat">
+				<div class="value">{{ .Profile.PostAmount}}</div>
+				<div class="name">post</div>
+			</div>
+			<div class="stat">
+				<div class="value">{{ .Profile.FollowerAmount}}</div>
+				<div class="name">followers</div>
+			</div>
+			<div class="stat">
+				<div class="value">{{ .Profile.FollowingAmount}}</div>
+				<div class="name">following</div>
+			</div>
+		</div>
+		<div class="hDivider"></div>
+		<div class="posts">
+			<div class="noPosts">No posts yet</div>
+			{{ range $i, $Row := orderedPosts .ProfilePosts}}
+				<div class="row">
+					{{range $j, $Post := $Row}}
+						<div class="post {{ if isEmpty $Post.Content }}empty{{ else }} EmbeddedLoad {{ end }}" target="post" detail="{{ $Post.ID }}">
+							<div class="stats">
+								<div class="likes"><i class="ti ti-heart-filled"></i>{{ $Post.Likes }}</div>
+								<div class="comments"><i class="ti ti-message-circle-2-filled"></i>{{ $Post.Comments }}</div>
+							</div>
+							<img src="data:image/png;base64,{{ renderImage $Post.Content }}"/>
+						</div>
+					{{ end }}
+				</div>
+			{{end}}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,126 @@
+@import "global.scss";
+
+.content.notifications {
+	flex:1;
+	display:flex;
+	justify-content: center;
+
+	& > .main {
+		width:630px;
+		height:100%;
+		display:flex;
+		flex-direction: column;
+		align-items: center;
+
+		& > .title {
+			font-size:1.2rem;
+			color:$font-1;
+			width:100%;
+			padding:20px;
+			padding-left:5px;
+			box-sizing: border-box;
+			font-weight: bold;
+		}
+
+		& > .parentNotifications {
+			width:600px;
+			height:100%;
+
+			
+			& > .date {
+				margin-top:5px;
+				font-size: 16px;
+				color: white;
+				width: 100%;
+				padding: 10px;
+				padding-left: 5px;
+				box-sizing: border-box;
+				font-weight: bold;
+			}
+
+			& > .notifications {
+				margin-bottom:15px;
+				width:100%;
+				& > .notification {
+					min-height:60px;
+					padding: 8px 24px;
+					box-sizing: border-box;
+					display:flex;
+					width:100%;
+					border-radius:6px;
+					gap:15px;
+					align-items: center;
+
+					&:hover {
+						cursor:pointer;
+						background:$background-2;
+					}
+
+					& > .avatar {
+						width:44px;
+						height:44px;
+						@extend .avatarBase;
+					}
+					& > .details {
+						flex:1;
+						font-size:14px;
+
+						& > .text {
+							color:$font-1;
+							font-weight: 300;
+
+							& > span.username {
+								font-weight: 500;
+							}
+
+							& > .date {
+								margin-left:5px;
+								display: inline-block;
+								color:$font-3;
+								font-weight: 300;
+							}
+						}
+						
+					}
+
+					& > .extra {
+						& > .postPreview {
+							width:44px;
+							height:44px;
+							background-size:cover;
+							background-position: center;
+							border-radius: 3px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@media(max-width:768px) {
+	body > .content.notifications {
+		& > .main {
+			& > .title {
+				padding-left: 20px;
+			}
+
+			& > .parentNotifications {
+				box-sizing: border-box;
+				padding:0;
+				width:100%;
+
+				& > .date {
+					padding-left:10px;
+				}
+				& > .notifications {
+					& > .notification {
+						padding:8px 12px;
+						border-radius: 0;
+					}
+				}
+			}
+		}
+	}
+}

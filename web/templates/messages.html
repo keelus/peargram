@@ -1,0 +1,64 @@
+<div class="content messages">
+	<div class="sidepanel">
+		<div class="title">
+			Messages
+		</div>
+		<div class="titleMobile">
+			<i class="ti ti-send"></i>
+		</div>
+		<div class="chats">
+			{{ range $i, $Chat := .Chats }}
+				<div class="chat disabledhasNotification {{ if eq (index $Chat.Participants 1) (index $.ActiveChat.Participants 1)}}active{{ end }} EmbeddedLoad" target="messages" detail="{{- index $Chat.Participants 1 -}}" >
+					<div class="avatar" style="background-image:url(/api/users/getAvatar/{{- index $Chat.Participants 1 -}})"></div>
+					<div class="details">
+						<div class="username">{{ index $Chat.Participants 1 }}</div>
+						<div class="message">
+							<div class="text">
+								{{ lastMessageContent $Chat }}
+							</div>
+							<div class="date">• {{ renderDateShort (lastMessageDate $Chat) }}</div>
+						</div>
+					</div>
+				</div>
+			{{ end }}
+		</div>
+	</div>
+	<div class="main">
+		{{ if .NoneSelected}}
+		<div class="welcomeMessage">
+			<div class="image"><i class="ti ti-messages"></i></div>
+			<div class="title">Your messages</div>
+			<div class="subtitle">Click on a chat to send messages and photos to a friend!</div>
+		</div>
+		{{ end }}
+		{{ if not .NoneSelected}}
+			<div class="header">
+				<div class="avatar EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}" style="background-image:url(/api/users/getAvatar/{{- index .ActiveChat.Participants 1 -}})"></div>
+				<div class="username  EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}">{{ index .ActiveChat.Participants 1 }}</div>
+				<div class="options"><i class="ti ti-dots"></i></div>
+			</div>
+			<div class="contentMessages">
+				{{ range $i, $Message := .ActiveChat.Messages }}
+					{{ if eq $Message.Actor (index $.ActiveChat.Participants 1)}}
+						<div class="message incoming">{{- $Message.Content -}}</div>
+					{{ else }}
+						<div class="message">{{- $Message.Content -}}</div>
+					{{ end }}
+				{{ end }}
+				<div class="start">
+					<div class="avatar EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}" style="background-image: url(/api/users/getAvatar/{{- index .ActiveChat.Participants 1 -}});"></div>
+					<div class="username EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}">{{- index .ActiveChat.Participants 1 -}}</div>
+					<div class="button EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}">View profile</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="inner">
+					<div class="button emoji show"><i class="ti ti-mood-smile"></i></div>
+					<input type="text" placeholder="Message..." id="MessageField">
+					<div class="button image show" id="MediaButton"><i class="ti ti-photo"></i></div>
+					<div class="button send" id="SendButton">Send</div>
+				</div>
+			</div>
+		{{ end }}
+	</div>
+</div>

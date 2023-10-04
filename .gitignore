@@ -1,0 +1,12 @@
+# Local environment variables
+.env*.local
+
+# Local database
+/database/database.db
+
+# Personal placeholder images
+web/assets/media/images/*
+
+# exception to the rule
+!web/assets/media/images/uploadModalPlaceholder.jpg
+!web/assets/media/images/uploadModalFilter.jpg

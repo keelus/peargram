@@ -1,0 +1,364 @@
+@import "global.scss";
+
+.content.messages {
+	flex:1;
+	display:flex;
+	justify-content: center;
+	width:100%;
+	height:100%;
+	position:relative;
+	
+	
+	& > .sidepanel {
+		width:350px;
+		height:100%;
+		background:$background-1;
+		border-right:1px solid $background-4;
+		display:flex;
+		flex-direction: column;
+
+		& > .title {
+			padding:30px 30px 15px 30px;
+			font-size:1rem;
+			font-weight: bold;
+			color:$font-1;
+		}
+		
+		& > .titleMobile {
+			height:75px;
+			width:100%;
+			display:none;
+			justify-content: center;
+			align-items: center;
+			font-size:1.8rem;
+			font-weight: bold;
+			color:$font-1;
+		}
+		
+		& > .chats {
+			display:flex;
+			flex-direction: column;
+			overflow-y:auto;
+			flex:1;
+
+			& > .chat {
+				width:100%;
+				padding:8px 24px;
+				box-sizing: border-box;
+				display:flex;
+				position:relative;
+
+				&.active {
+					background:$background-4;
+				}
+
+				&.hasNotification::after {
+					content:'';
+					position: absolute;
+					top:50%;
+					transform:translateY(-50%);
+					right:30px;
+					background:$green-2;
+					width:8px;
+					height:8px;
+					border-radius: 50%;
+				}
+
+				&:hover {
+					cursor:pointer;
+					&:not(.active) {
+						background:$background-3;
+					}
+				}
+
+				& > .avatar {
+					width:56px;
+					height:56px;
+					margin-right:12px;
+					@extend .avatarBase;
+				}
+				& > .details {
+					flex:1;
+					display:flex;
+					flex-direction: column;
+					justify-content: space-between;
+					padding:7.5px 0;
+					& > .username {
+						color:$font-1;
+						font-size:14px;
+					}
+					& > .message {
+						display:flex;
+						& > .text {
+							color:$font-2;
+							font-size:12px;
+							max-width:190px;
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						}
+						& > .date {
+							font-size:12px;
+							margin-left:5px;
+							color:$font-3;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	& > .main {
+		flex:1;
+		height:100%;
+		display:flex;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+
+		& > .welcomeMessage {
+			width:100%;
+			height:100%;
+			background:$background-1;
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			z-index:1;
+			padding:20px;
+			box-sizing: border-box;
+
+			& > .image {
+				& > i {
+					font-size:100px;
+					color:$font-1;
+				}
+				margin-bottom:15px;
+			}
+			& > .title {
+				font-size: 20px;
+				color:$font-1;
+				margin-bottom:10px;
+			}
+			& > .subtitle {
+				font-size: 14px;
+				color:$font-3;
+				text-align: center;
+			}
+		}
+
+		& > .header {
+			width:100%;
+			height:75px;
+			display:flex;
+			align-items: center;
+			padding:0 20px;
+			box-sizing: border-box;
+			border-bottom:1px solid $background-4;
+			& > .avatar {
+				width:44px;
+				height:44px;
+				margin-right:10px;
+				@extend .avatarBase;
+				
+				&:hover {
+					cursor:pointer;
+				}
+			}
+			& > .username {
+				color:$font-1;
+				font-size:16px;
+				font-weight: 700;
+				flex:1;
+				
+				&:hover {
+					cursor:pointer;
+				}
+			}
+			& > .options {
+				margin-left:auto;
+				& > i {
+					color:$font-1;
+					font-size:30px;
+				}
+			}
+		}
+
+		& > .contentMessages {
+			flex:1;
+			width:100%;
+			padding:30px 30px 10px 30px;
+			box-sizing: border-box;
+			display:flex;
+			flex-direction: column-reverse;
+			// justify-content: flex-end;
+			gap:10px;
+			overflow:hidden;
+			overflow-y:scroll;
+
+			& > .start {
+				margin-bottom:auto;
+				padding:20px 0;
+				display:flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				gap:10px;
+
+				& > .avatar {
+					width:96px;
+					height:96px;
+					@extend .avatarBase;
+				
+					&:hover {
+						cursor:pointer;
+					}
+				}
+				& > .username {
+					color: $font-1;
+					font-size:20px;
+					font-weight: 600;
+				
+					&:hover {
+						cursor:pointer;
+					}
+				}
+				& > .button {
+					display:block;
+					color:$font-1;
+					padding:7px 15px;
+					box-sizing: border-box;
+					background:$background-5;
+					border-radius:5px;
+					font-size:16px;
+					transition:background .3s;
+					&:hover {
+						cursor:pointer;
+						background:$background-4;
+					}
+				}
+			}
+
+			& > .message {
+				background:$green-2;
+				width:fit-content;
+				min-height:34px;
+				display:flex;
+				align-items: center;
+				padding:7px 12px;
+				box-sizing: border-box;
+				color:white;
+				border-radius:50px 7.5px 50px 50px;
+				margin-left:auto;
+
+				&.incoming {
+					margin-left:0;
+					background:$background-4;
+					border-radius:50px 50px 50px 7.5px;
+				}
+			}
+		}
+
+		& > .bottom {
+			width:100%;
+			height:78px;
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			padding:16px 30px;
+			box-sizing: border-box;
+
+			& > .inner {
+				// height:44px;
+				height: 100%;
+				width:100%;
+				border:none;
+				border:1px solid $background-4;
+				@extend .avatarBase;
+				border-radius:50px;
+				display:flex;
+
+				& > .button {
+					width:30px;
+					margin:15px;
+					display:none;
+					justify-content: center;
+					align-items: center;
+					flex:1;
+
+					& > i {
+						color:$font-1;
+						font-size: 30px;
+					}
+					&:hover {
+						cursor:pointer;
+						& > i {
+							color:$font-2;
+						}
+					}
+
+					&.send {
+						display:none;
+						color:$green-1;
+						font-weight: 500;
+
+						&:hover {
+							color:$font-1;
+						}
+					}
+
+					&.show {
+						display:flex;
+					}
+				}
+
+				& > input {
+					border:none;
+					background:none;
+					color:white;
+					outline:none;
+					font-size:15px;
+					width:100%;
+				}
+			}
+		}
+	}
+}
+
+@media(max-width:768px) {
+	body > .content.messages {
+		& > .sidepanel {
+			width:100px;
+
+			& > .title {
+				display:none;
+			}
+			& > .titleMobile {
+				display:flex;
+			}
+
+			& > .chats {
+				& > .chat {
+					padding:0;
+					justify-content: center;
+					padding:8px 0;
+					& > .avatar {
+						margin-right: 0;
+					}
+					& > .details {
+						display:none;
+					}
+				}
+			}
+		}
+		& > .main {
+			& > .contentMessages {
+				padding-left:10px;
+				padding-right:10px;
+			}
+			& > .bottom {
+				padding:16px 10px;
+			}
+		}
+	}
+}

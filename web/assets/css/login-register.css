@@ -1,0 +1,196 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: #000000;
+}
+
+* {
+  font-family: "Inter";
+}
+
+body {
+  display: flex;
+}
+
+.hDivider {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid #363636;
+}
+
+body > .content {
+  overflow-y: scroll;
+}
+
+@media (max-width: 768px) {
+  body > .content {
+    height: calc(100% - 48px) !important;
+  }
+}
+.avatarBase {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background: #121212;
+  padding: 0;
+  margin: 0;
+}
+
+body > .signinForm, body > .signupForm {
+  margin: auto;
+  background: #1a1a1a;
+  border: 1px solid #262626;
+  border-radius: 6px;
+  padding: 20px;
+  width: 340px;
+  box-sizing: border-box;
+}
+body > .signinForm > .logo, body > .signupForm > .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 10px;
+}
+body > .signinForm > .logo > svg, body > .signupForm > .logo > svg {
+  width: 50px;
+  height: 50px;
+}
+body > .signinForm > .logo > .text, body > .signupForm > .logo > .text {
+  color: white;
+  font-size: 40px;
+  margin-left: 5px;
+}
+body > .signinForm > .signButton, body > .signupForm > .signButton {
+  display: flex;
+  height: 44px;
+  width: 100%;
+  background: white;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12.5px;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition: 0.3s linear;
+}
+body > .signinForm > .signButton > .icon > i, body > .signupForm > .signButton > .icon > i {
+  font-size: 18px;
+  color: #121212;
+}
+body > .signinForm > .signButton > .text, body > .signupForm > .signButton > .text {
+  text-decoration: none;
+  flex: 1;
+  font-size: 14px;
+  color: #121212;
+  font-weight: 400;
+  text-align: center;
+}
+body > .signinForm > .signButton:hover, body > .signupForm > .signButton:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.788);
+}
+body > .signinForm > .subtitle, body > .signupForm > .subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.788);
+  margin-bottom: 15px;
+  text-align: center;
+}
+body > .signinForm > .details, body > .signupForm > .details {
+  margin-bottom: 20px;
+  color: rgb(168, 168, 168);
+  font-size: 14px;
+}
+body > .signinForm > .details ul, body > .signupForm > .details ul {
+  margin: 1px 0;
+}
+body > .signinForm > .errorMessage, body > .signupForm > .errorMessage {
+  background: #F61C2C;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+body > .signinForm > .errorMessage > .icon, body > .signupForm > .errorMessage > .icon {
+  padding-right: 10px;
+}
+body > .signinForm > .errorMessage > .icon > i, body > .signupForm > .errorMessage > .icon > i {
+  font-size: 25px;
+  color: white;
+}
+body > .signinForm > .errorMessage > .text, body > .signupForm > .errorMessage > .text {
+  color: white;
+  font-size: 14px;
+}
+body > .signinForm > .errorMessage.hide, body > .signupForm > .errorMessage.hide {
+  display: none;
+}
+body > .signinForm > input, body > .signupForm > input {
+  border: 1px solid #363636;
+  background: none;
+  outline: none;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  color: white;
+  margin: 15px 0;
+}
+body > .signinForm > input.hasError, body > .signupForm > input.hasError {
+  color: white;
+  border: 1px solid #F61C2C;
+  background: rgb(73, 10, 10);
+}
+body > .signinForm > input::placeholder, body > .signupForm > input::placeholder {
+  opacity: 0.7;
+}
+body > .signinForm > .orParent, body > .signupForm > .orParent {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+body > .signinForm > .orParent::before, body > .signupForm > .orParent::before {
+  content: "";
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background: rgb(168, 168, 168);
+  z-index: 0;
+}
+body > .signinForm > .orParent > .text, body > .signupForm > .orParent > .text {
+  color: rgb(168, 168, 168);
+  background: #1a1a1a;
+  padding: 0 6px;
+  z-index: 1;
+}
+
+.render-link, a.render-link:link, a.render-link:visited {
+  color: rgba(255, 255, 255, 0.788);
+  text-decoration: underline;
+  font-style: italic;
+  transition: color 0.3s;
+}
+.render-link:hover, a.render-link:link:hover, a.render-link:visited:hover {
+  color: white;
+}
+
+form {
+  display: none !important;
+}
+
+/*# sourceMappingURL=login-register.css.map */

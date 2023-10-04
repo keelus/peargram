@@ -1,0 +1,94 @@
+{{ define "post.html" }}
+<div class="content post">
+	<div class="main">
+		<div class="post">
+			<div class="top">
+				<div class="avatar EmbeddedLoad" target="profile" detail="{{ .Post.Username }}"  style="background-image:url(/api/users/getAvatar/{{- .Post.Username -}})"></div>
+				<div class="username EmbeddedLoad" target="profile" detail="{{ .Post.Username }}" >{{ .Post.Username }} <!--<i class="ti ti-rosette-filled verified"></i>--></div>
+				<div class="date">• {{ renderDate .Post.Date }}</div>
+				<div class="options"><i class="ti ti-dots"></i></div>
+			</div>
+			<div class="content">
+				<img src="data:image/png;base64,{{- renderImage .Post.Content -}}" />
+				<!-- <img src="/assets/media/images/examplePost2.jpg" alt=""> -->
+			</div>
+			<div class="bottom">
+				<div class="actions">
+					<div class="button">
+						<i class="ti ti-heart"></i>
+					</div>
+					<div class="button">
+						<i class="ti ti-message-circle-2"></i>
+					</div>
+					<div class="button">
+						<i class="ti ti-send"></i>
+					</div>
+					<div class="button">
+						<i class="ti ti-bookmark"></i>
+					</div>
+				</div>
+				<div class="likes">{{ .Post.Likes }} likes</div>
+				<div class="comments">
+					<div class="commentBlock">
+						<div class="comment">
+							<div class="avatarParent">
+								<div class="header">
+									<div class="avatar EmbeddedLoad" target="profile" detail="COMMENT_USER" style="background-image:url(/api/users/getAvatar/COMMENT_USER)"></div>
+								</div>
+							</div>
+							<div class="content">
+								<div class="header">
+									<div class="details">
+										<div class="username EmbeddedLoad" target="profile" detail="COMMENT_USER">COMMENT_USER</div>
+										<div class="date">DATE</div>
+									</div>
+								</div>
+								<div class="text">COMMENT_TEXT</div>
+								<div class="stats">
+									<div class="likes">COMMENT_LIKES likes</div>
+									<div class="replyButton">Reply</div>
+								</div>
+								<div class="viewRepliesButton">View all COMMENT_REPLIES replies</div>
+							</div>
+							<div class="likeParent">
+								<div class="likeButton"><i class="ti ti-heart"></i></div>
+							</div>
+						</div>
+						<div class="replies">
+							<div class="comment">
+								<div class="avatarParent">
+									<div class="header">
+										<div class="avatar EmbeddedLoad" target="profile" detail="COMMENT_REPLY_USER" style="background-image:url(/api/users/getAvatar/COMMENT_REPLY_USER)"></div>
+									</div>
+								</div>
+								<div class="content">
+									<div class="header">
+										<div class="details">
+											<div class="username EmbeddedLoad" target="profile" detail="COMMENT_REPLY_USER">COMMENT_REPLY_USER</div>
+											<div class="date">DATE</div>
+										</div>
+									</div>
+									<div class="text">COMMENT_REPLY_TEXT</div>
+									<div class="stats">
+										<div class="likes">COMMENT_REPLY_LIKES likes</div>
+										<div class="replyButton">Reply</div>
+									</div>
+								</div>
+								<div class="likeParent">
+									<div class="likeButton"><i class="ti ti-heart"></i></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="replyInput">
+					<div class="avatar" style="background-image:url(/api/users/getAvatar/{{- .User.Username -}})"></div>
+					<input type="text" placeholder="Add a comment...">
+					<div class="postButton">Post</div>
+					<div class="emojiButton"><i class="ti ti-mood-smile"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{ end }}

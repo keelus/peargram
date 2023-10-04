@@ -1,0 +1,469 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: #000000;
+}
+
+* {
+  font-family: "Inter";
+}
+
+body {
+  display: flex;
+}
+
+.hDivider {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid #363636;
+}
+
+body > .content {
+  overflow-y: scroll;
+}
+
+@media (max-width: 768px) {
+  body > .content {
+    height: calc(100% - 48px) !important;
+  }
+}
+.avatarBase, .uploadModal > .main > .rightSide > .stage2 > .header > .avatar {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.uploadModal {
+  width: 728px;
+  height: 728px;
+  background: #262626;
+  position: fixed;
+  border-radius: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+}
+.uploadModal > .header {
+  width: 100%;
+  height: 42px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #363636;
+}
+.uploadModal > .header > .title {
+  color: white;
+  font-weight: 600;
+}
+.uploadModal > .header > .button {
+  height: fit-content;
+  font-size: 14px;
+  color: #a0b913;
+  font-weight: 500;
+}
+.uploadModal > .header > .button > i {
+  color: white;
+  font-size: 30px;
+}
+.uploadModal > .header > .button:hover {
+  cursor: pointer;
+  color: white;
+}
+.uploadModal > .header > .button:hover > i {
+  color: rgba(255, 255, 255, 0.788);
+}
+.uploadModal > .main {
+  display: flex;
+  flex: 1;
+}
+.uploadModal > .main > .leftSide {
+  display: flex;
+  flex: 2;
+  min-width: 728px;
+  height: 100%;
+}
+.uploadModal > .main > .leftSide > .stage0 {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12.5px;
+}
+.uploadModal > .main > .leftSide > .stage0 > i {
+  color: white;
+  font-size: 96px;
+}
+.uploadModal > .main > .leftSide > .stage0 > .text {
+  color: white;
+  font-size: 1.2rem;
+}
+.uploadModal > .main > .leftSide > .stage0 > .button {
+  color: white;
+  padding: 7px 15px;
+  box-sizing: border-box;
+  background: #a0b913;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+.uploadModal > .main > .leftSide > .stage0 > .button:hover {
+  cursor: pointer;
+  background: #859916;
+}
+.uploadModal > .main > .leftSide > .stage1 {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: #1a1a1a;
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.uploadModal > .main > .leftSide > .stage2 {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: #1a1a1a;
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.uploadModal > .main > .rightSide {
+  flex: 1;
+  height: 100%;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+}
+.uploadModal > .main > .rightSide > .stage0 {
+  display: none;
+}
+.uploadModal > .main > .rightSide > .stage1 {
+  display: none;
+  flex-direction: column;
+  border-left: 1px solid #363636;
+}
+.uploadModal > .main > .rightSide > .stage1 > .header {
+  height: 40px;
+  border-bottom: 1px solid #585858;
+  display: flex;
+  box-sizing: border-box;
+}
+.uploadModal > .main > .rightSide > .stage1 > .header > .option {
+  flex: 1;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #585858;
+  box-sizing: border-box;
+  color: #585858;
+  transition: all 0.3s;
+}
+.uploadModal > .main > .rightSide > .stage1 > .header > .option:hover {
+  cursor: pointer;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content {
+  display: flex;
+  height: 100%;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters {
+  flex: 1;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 5px;
+  display: none;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow {
+  display: flex;
+  justify-content: space-evenly;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow > .filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  height: 100px;
+  padding: 10px 0;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow > .filter:hover {
+  cursor: pointer;
+  background: #1a1a1a;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow > .filter.active > .image {
+  border: 2px solid #CED74D;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow > .filter.active > .name {
+  color: #CED74D !important;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow > .filter > .image {
+  width: 78px;
+  height: 78px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 3px;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .filters > .filterRow > .filter > .name {
+  color: rgba(255, 255, 255, 0.788);
+  font-size: 12px;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment {
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .header {
+  padding-top: 14px;
+  padding-bottom: 7.5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .header > .name {
+  font-size: 15px;
+  color: white;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .header > .resetButton {
+  color: #a0b913;
+  display: none;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .header > .resetButton:hover {
+  cursor: pointer;
+  color: white;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action {
+  height: 36px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action > input {
+  box-sizing: border-box;
+  flex: 1;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #262626;
+  background-image: linear-gradient(to right, rgb(219, 219, 219) 0%, rgb(219, 219, 219) 100%);
+  height: 2px;
+  color: red;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action > input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action > input::-webkit-slider-thumb {
+  box-sizing: border-box;
+  border: none;
+  background: white;
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action > input::-moz-range-thumb {
+  box-sizing: border-box;
+  border: none;
+  background: white;
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action > input::-ms-thumb {
+  box-sizing: border-box;
+  border: none;
+  background: white;
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment > .action > .value {
+  min-width: 30px;
+  padding-left: 5px;
+  text-align: center;
+  color: rgb(168, 168, 168);
+  font-size: 12px;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment.changed > .header > .resetButton {
+  display: block;
+}
+.uploadModal > .main > .rightSide > .stage1 > .content > .adjustments > .adjustment.changed > .action > .value {
+  color: white;
+}
+.uploadModal > .main > .rightSide > .stage1.filters > .header > .option:nth-child(1) {
+  color: white;
+  border-color: white;
+}
+.uploadModal > .main > .rightSide > .stage1.filters > .content > .filters {
+  display: flex;
+}
+.uploadModal > .main > .rightSide > .stage1.adjustments > .header > .option:nth-child(2) {
+  color: white;
+  border-color: white;
+}
+.uploadModal > .main > .rightSide > .stage1.adjustments > .content > .adjustments {
+  display: flex;
+}
+.uploadModal > .main > .rightSide > .stage2 {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  border-left: 1px solid #363636;
+}
+.uploadModal > .main > .rightSide > .stage2 > .header {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+}
+.uploadModal > .main > .rightSide > .stage2 > .header > .avatar {
+  width: 28px;
+  height: 28px;
+}
+.uploadModal > .main > .rightSide > .stage2 > .header > .username {
+  color: white;
+  font-size: 14px;
+}
+.uploadModal > .main > .rightSide > .stage2 > textarea {
+  background: none;
+  resize: none;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.788);
+  font-weight: 300;
+}
+.uploadModal > .main > .rightSide > .stage2 > .textUtils {
+  padding-top: 5px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.uploadModal > .main > .rightSide > .stage2 > .textUtils > .button > i {
+  font-size: 25px;
+  color: rgb(168, 168, 168);
+}
+.uploadModal > .main > .rightSide > .stage2 > .textUtils > .info {
+  font-size: 12px;
+  color: rgb(168, 168, 168);
+  font-weight: 200;
+}
+.uploadModal > .main > .rightSide > .content {
+  flex: 1;
+}
+.uploadModal.stage0 > .header > .button.next, .uploadModal.stage1 > .header > .button.next {
+  display: flex;
+}
+.uploadModal.stage0 > .header > .button.post, .uploadModal.stage1 > .header > .button.post {
+  display: none;
+}
+.uploadModal.stage2 > .header > .button.next {
+  display: none;
+}
+.uploadModal.stage2 > .header > .button.post {
+  display: flex;
+}
+.uploadModal.stage0 > .main > .leftSide > .stage0, .uploadModal.stage0 > .main > .rightSide > .stage0 {
+  display: flex;
+}
+.uploadModal.stage1 > .main > .leftSide > .stage1, .uploadModal.stage1 > .main > .rightSide > .stage1 {
+  display: flex;
+}
+.uploadModal.stage2 > .main > .leftSide > .stage2, .uploadModal.stage2 > .main > .rightSide > .stage2 {
+  display: flex;
+}
+.uploadModal.stage1, .uploadModal.stage2 {
+  width: 1068px !important;
+}
+
+@media (max-width: 1150px) {
+  body > .uploadModal {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  body > .uploadModal.stage1, body > .uploadModal.stage2 {
+    width: 100% !important;
+  }
+  body > .uploadModal > .main {
+    flex-direction: column;
+  }
+  body > .uploadModal > .main > .leftSide {
+    min-width: unset;
+    width: 100%;
+    height: unset !important;
+    flex: 1;
+    overflow: hidden;
+    max-height: 50%;
+  }
+  body > .uploadModal > .main > .leftSide > .stage0 {
+    height: 100%;
+  }
+  body > .uploadModal > .main > .leftSide > .stage1, body > .uploadModal > .main > .leftSide > .stage2 {
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  body > .uploadModal > .main > .rightSide {
+    min-width: unset;
+    width: 100%;
+    height: unset !important;
+    flex: 1;
+    overflow: hidden;
+    max-height: 50%;
+  }
+  body > .uploadModal > .main > .rightSide > .stage1 {
+    height: 100%;
+    flex: 1;
+  }
+  body > .uploadModal > .main > .rightSide > .stage1 > .content {
+    overflow-y: scroll;
+  }
+  body > .uploadModal.stage0 > .main > .leftSide {
+    max-height: unset;
+    height: 100%;
+  }
+  body > .uploadModal.stage0 > .main > .rightSide {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  body > .uploadModal {
+    height: calc(100% - 48px);
+  }
+}
+
+/*# sourceMappingURL=modal.css.map */

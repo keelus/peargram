@@ -1,0 +1,356 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: #000000;
+}
+
+* {
+  font-family: "Inter";
+}
+
+body {
+  display: flex;
+}
+
+.hDivider {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid #363636;
+}
+
+body > .content {
+  overflow-y: scroll;
+}
+
+@media (max-width: 768px) {
+  body > .content {
+    height: calc(100% - 48px) !important;
+  }
+}
+.avatarBase, .content.messages > .main > .bottom > .inner, .content.messages > .main > .contentMessages > .start > .avatar, .content.messages > .main > .header > .avatar, .content.messages > .sidepanel > .chats > .chat > .avatar {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.content.messages {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.content.messages > .sidepanel {
+  width: 350px;
+  height: 100%;
+  background: #000000;
+  border-right: 1px solid #262626;
+  display: flex;
+  flex-direction: column;
+}
+.content.messages > .sidepanel > .title {
+  padding: 30px 30px 15px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+}
+.content.messages > .sidepanel > .titleMobile {
+  height: 75px;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+.content.messages > .sidepanel > .chats {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+.content.messages > .sidepanel > .chats > .chat {
+  width: 100%;
+  padding: 8px 24px;
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+}
+.content.messages > .sidepanel > .chats > .chat.active {
+  background: #262626;
+}
+.content.messages > .sidepanel > .chats > .chat.hasNotification::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 30px;
+  background: #a0b913;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.content.messages > .sidepanel > .chats > .chat:hover {
+  cursor: pointer;
+}
+.content.messages > .sidepanel > .chats > .chat:hover:not(.active) {
+  background: #1a1a1a;
+}
+.content.messages > .sidepanel > .chats > .chat > .avatar {
+  width: 56px;
+  height: 56px;
+  margin-right: 12px;
+}
+.content.messages > .sidepanel > .chats > .chat > .details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 7.5px 0;
+}
+.content.messages > .sidepanel > .chats > .chat > .details > .username {
+  color: white;
+  font-size: 14px;
+}
+.content.messages > .sidepanel > .chats > .chat > .details > .message {
+  display: flex;
+}
+.content.messages > .sidepanel > .chats > .chat > .details > .message > .text {
+  color: rgba(255, 255, 255, 0.788);
+  font-size: 12px;
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.content.messages > .sidepanel > .chats > .chat > .details > .message > .date {
+  font-size: 12px;
+  margin-left: 5px;
+  color: rgb(168, 168, 168);
+}
+.content.messages > .main {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.content.messages > .main > .welcomeMessage {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.content.messages > .main > .welcomeMessage > .image {
+  margin-bottom: 15px;
+}
+.content.messages > .main > .welcomeMessage > .image > i {
+  font-size: 100px;
+  color: white;
+}
+.content.messages > .main > .welcomeMessage > .title {
+  font-size: 20px;
+  color: white;
+  margin-bottom: 10px;
+}
+.content.messages > .main > .welcomeMessage > .subtitle {
+  font-size: 14px;
+  color: rgb(168, 168, 168);
+  text-align: center;
+}
+.content.messages > .main > .header {
+  width: 100%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #262626;
+}
+.content.messages > .main > .header > .avatar {
+  width: 44px;
+  height: 44px;
+  margin-right: 10px;
+}
+.content.messages > .main > .header > .avatar:hover {
+  cursor: pointer;
+}
+.content.messages > .main > .header > .username {
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  flex: 1;
+}
+.content.messages > .main > .header > .username:hover {
+  cursor: pointer;
+}
+.content.messages > .main > .header > .options {
+  margin-left: auto;
+}
+.content.messages > .main > .header > .options > i {
+  color: white;
+  font-size: 30px;
+}
+.content.messages > .main > .contentMessages {
+  flex: 1;
+  width: 100%;
+  padding: 30px 30px 10px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.content.messages > .main > .contentMessages > .start {
+  margin-bottom: auto;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.content.messages > .main > .contentMessages > .start > .avatar {
+  width: 96px;
+  height: 96px;
+}
+.content.messages > .main > .contentMessages > .start > .avatar:hover {
+  cursor: pointer;
+}
+.content.messages > .main > .contentMessages > .start > .username {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+.content.messages > .main > .contentMessages > .start > .username:hover {
+  cursor: pointer;
+}
+.content.messages > .main > .contentMessages > .start > .button {
+  display: block;
+  color: white;
+  padding: 7px 15px;
+  box-sizing: border-box;
+  background: #363636;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+.content.messages > .main > .contentMessages > .start > .button:hover {
+  cursor: pointer;
+  background: #262626;
+}
+.content.messages > .main > .contentMessages > .message {
+  background: #a0b913;
+  width: fit-content;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  box-sizing: border-box;
+  color: white;
+  border-radius: 50px 7.5px 50px 50px;
+  margin-left: auto;
+}
+.content.messages > .main > .contentMessages > .message.incoming {
+  margin-left: 0;
+  background: #262626;
+  border-radius: 50px 50px 50px 7.5px;
+}
+.content.messages > .main > .bottom {
+  width: 100%;
+  height: 78px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 30px;
+  box-sizing: border-box;
+}
+.content.messages > .main > .bottom > .inner {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border: 1px solid #262626;
+  border-radius: 50px;
+  display: flex;
+}
+.content.messages > .main > .bottom > .inner > .button {
+  width: 30px;
+  margin: 15px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.content.messages > .main > .bottom > .inner > .button > i {
+  color: white;
+  font-size: 30px;
+}
+.content.messages > .main > .bottom > .inner > .button:hover {
+  cursor: pointer;
+}
+.content.messages > .main > .bottom > .inner > .button:hover > i {
+  color: rgba(255, 255, 255, 0.788);
+}
+.content.messages > .main > .bottom > .inner > .button.send {
+  display: none;
+  color: #CED74D;
+  font-weight: 500;
+}
+.content.messages > .main > .bottom > .inner > .button.send:hover {
+  color: white;
+}
+.content.messages > .main > .bottom > .inner > .button.show {
+  display: flex;
+}
+.content.messages > .main > .bottom > .inner > input {
+  border: none;
+  background: none;
+  color: white;
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  body > .content.messages > .sidepanel {
+    width: 100px;
+  }
+  body > .content.messages > .sidepanel > .title {
+    display: none;
+  }
+  body > .content.messages > .sidepanel > .titleMobile {
+    display: flex;
+  }
+  body > .content.messages > .sidepanel > .chats > .chat {
+    padding: 0;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  body > .content.messages > .sidepanel > .chats > .chat > .avatar {
+    margin-right: 0;
+  }
+  body > .content.messages > .sidepanel > .chats > .chat > .details {
+    display: none;
+  }
+  body > .content.messages > .main > .contentMessages {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  body > .content.messages > .main > .bottom {
+    padding: 16px 10px;
+  }
+}
+
+/*# sourceMappingURL=messages.css.map */

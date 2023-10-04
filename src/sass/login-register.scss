@@ -1,0 +1,181 @@
+@import "global.scss";
+
+body, html {
+	width:100%;
+	height:100%;
+	background:$background-2;
+	padding:0;
+	margin:0;
+}
+body > .signinForm, body > .signupForm {
+	margin:auto;
+	background:$background-3;
+	border:1px solid $background-4;
+	border-radius:6px;
+	padding:20px;
+	width:340px;
+	box-sizing: border-box;
+
+	& > .logo {
+		display:flex;
+		align-items: center;
+		justify-content: center;
+		padding:20px 10px;
+
+		& > svg {
+			width:50px;
+			height:50px;
+		}
+
+		& > .text {
+			color:white;
+			font-size:40px;
+			margin-left:5px;
+		}
+	}
+
+	& > .signButton {
+		display:flex;
+		height:44px;
+		width:100%;
+		background:$font-1;
+		border-radius:6px;
+		justify-content: center;
+		align-items: center;
+		padding:0 12.5px;
+		box-sizing: border-box;
+		text-decoration: none;
+		transition:.3s linear;
+
+		& > .icon {
+			& > i {
+				font-size:18px;
+				color:$background-2;
+			}
+		}
+
+		& > .text {
+			text-decoration: none;
+			flex:1;
+			font-size: 14px;
+			color:$background-2;
+			font-weight: 400;
+			text-align: center;
+		}
+
+		&:hover {
+			cursor:pointer;
+			background:$font-2;
+		}
+	}
+
+	& > .subtitle {
+		font-size:14px;
+		color:$font-2;
+		margin-bottom:15px;
+		text-align: center;
+
+	}
+
+	& > .details {
+		margin-bottom:20px;
+		color:$font-3;
+		font-size:14px;
+		ul {
+			margin:1px 0;
+		}
+	}
+
+	& > .errorMessage {
+		background:#F61C2C;
+		border-radius:6px;
+		padding:10px;
+		margin-bottom:15px;
+		box-sizing: border-box;
+		display:flex;
+		align-items: center;
+
+		& > .icon {
+			padding-right:10px;
+			& > i {
+				font-size:25px;
+				color:$font-1;
+			}
+		}
+
+		& > .text {
+			color:$font-1;
+			font-size:14px;
+		}
+
+		&.hide {
+			display:none;
+		}
+	}
+
+	& > input {
+		border:1px solid $background-5;
+		background:none;
+		outline:none;
+		border-radius: 6px;
+		width:100%;
+		box-sizing: border-box;
+		padding:10px 10px;
+		color:white;
+		margin:15px 0;
+
+		&.hasError {
+			color:$font-1;
+			border:1px solid #F61C2C;
+			background:rgb(73, 10, 10);
+		}
+		&::placeholder {
+			opacity:.7;
+		}
+	}
+
+	& > .orParent {
+		width:100%;
+		height:20px;
+		position: relative;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		margin:15px 0;
+
+		&::before {
+			content:'';
+			width:100%;
+			height:1px;
+			position: absolute;
+			top:50%;
+			left:0;
+			transform: translateY(-50%);
+			background:$font-3;
+			z-index: 0;
+		}
+
+		& > .text {
+			color:$font-3;
+			background:$background-3;
+			padding:0 6px;
+			z-index: 1;
+		}
+	}
+
+}
+
+.render-link, a.render-link:link, a.render-link:visited {
+	color:$font-2;
+	text-decoration: underline;
+	font-style: italic;
+	transition:color .3s;
+
+	&:hover {
+		color:$font-1;
+	}
+}
+
+form {
+	display:none !important;
+}

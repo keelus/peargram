@@ -1,0 +1,28 @@
+<div class="content notifications">
+	<div class="main">
+		<div class="title">
+			Notifications
+		</div>
+		<div class="hDivider"></div>
+		<div class="parentNotifications">
+			{{ range $i, $DateGroup := groupNotifications .Notifications }}
+				<div class="date">{{ renderDay $DateGroup.DayDate }}</div>
+				{{ range $j, $Notification := $DateGroup.Notifications}}
+					<div class="notifications EmbeddedLoad" target="{{- notificationButtonTarget $Notification -}}" detail="{{- notificationButtonDetail $Notification -}}" >
+						<div class="notification">
+							<div class="avatar" style="background-image:url(/api/users/getAvatar/{{- $Notification.Actor -}})"></div>
+							<div class="details">
+								<div class="text"><span class="username">{{- $Notification.Actor -}}</span> {{ notificationMessage $Notification.Type }}<div class="date">{{ renderDate $Notification.Date }}</div></div>
+								
+							</div>
+							<div class="extra">
+								<div class="postPreview" {{if $Notification.Post}}style="background-image:url(/api/postPreview/{{- $Notification.Post -}})"{{end}}></div>
+							</div>
+						</div>
+					</div>
+				{{ end }}
+				<div class="hDivider"></div>
+			{{ end }}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<style>
+		*:not(pre) { 
+			font-family: 'Inter';
+		}
+	</style>
+</head>
+<body>
+	<h1>Login</h1>
+	{{ if .LoggedIn}}
+		<pre>Current status: LOGGED IN</pre>
+	{{ else }}
+		<pre>Current status: NOT LOGGED</pre>
+	{{ end }}
+
+	<form>
+		<input type="text" id="username" placeholder="Username..."><br>
+		<input type="password" id="password" placeholder="Password..."><br>
+		<button type="submit">Login</button>
+	</form>
+	
+</body>
+</html>
+
+<script>
+	$("form").on("submit", (e) => {
+		e.preventDefault();
+
+		$.ajax({
+			type: "POST",
+			url: "/api/login",
+			data: {
+				"username": $("#username").val(),
+				"password": $("#password").val()
+			},
+			success: function (r, textStatus, xhr) {
+				window.location.href = "/";
+			}, error : function(r, textStatus, xhr) {
+				console.log("Something's bad")
+			}
+		});
+	})
+</script>

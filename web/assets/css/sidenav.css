@@ -1,0 +1,229 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: #000000;
+}
+
+* {
+  font-family: "Inter";
+}
+
+body {
+  display: flex;
+}
+
+.hDivider {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid #363636;
+}
+
+body > .content {
+  overflow-y: scroll;
+}
+
+@media (max-width: 768px) {
+  body > .content {
+    height: calc(100% - 48px) !important;
+  }
+}
+.avatarBase, body > .sidenav > .paneButtons .pButton > .avatar {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+body > .sidenav {
+  width: 335px;
+  height: 100%;
+  border-right: 1px solid #262626;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 12px 20px 12px;
+  padding-top: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+body > .sidenav.collapsed {
+  width: 72px;
+}
+body > .sidenav.collapsed > .logoParent {
+  padding: 5px;
+}
+body > .sidenav.collapsed > .logoParent > .text {
+  display: none;
+}
+body > .sidenav.collapsed > .paneButtons > .pButton > .name {
+  display: none;
+}
+body > .sidenav.collapsed > .paneButtons > .pButton > .avatar {
+  margin-right: 0;
+}
+body > .sidenav.collapsed > .moreButton > .name {
+  display: none;
+}
+body > .sidenav > .logoParent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 15px auto 15px 0;
+  padding: 5px 15px 5px 5px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+body > .sidenav > .logoParent > svg {
+  width: 35px;
+  height: 35px;
+}
+body > .sidenav > .logoParent:hover {
+  cursor: pointer;
+  background: #1a1a1a;
+}
+body > .sidenav > .logoParent > .text {
+  color: white;
+  font-size: 25px;
+  margin-left: 5px;
+}
+body > .sidenav > .paneButtons {
+  padding-top: 25px;
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+body > .sidenav > .paneButtons .pButton {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+  transition: background-color 0.3s;
+  border-radius: 6px;
+}
+body > .sidenav > .paneButtons .pButton > i, body > .sidenav > .paneButtons .pButton > .avatar {
+  color: white;
+  font-size: 24px;
+  margin-right: 10px;
+  transition: all 0.3s;
+}
+body > .sidenav > .paneButtons .pButton > .avatar {
+  width: 24px;
+  height: 24px;
+}
+body > .sidenav > .paneButtons .pButton > .name {
+  color: white;
+  font-size: 1.1rem;
+}
+body > .sidenav > .paneButtons .pButton:hover {
+  background: #1a1a1a;
+  cursor: pointer;
+}
+body > .sidenav > .paneButtons .pButton:hover > i, body > .sidenav > .paneButtons .pButton:hover > .avatar {
+  transform: scale(1.1);
+}
+body > .sidenav > .moreButton {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+  transition: background-color 0.3s;
+  border-radius: 6px;
+}
+body > .sidenav > .moreButton > i {
+  color: white;
+  font-size: 24px;
+  margin-right: 10px;
+  transition: all 0.3s;
+}
+body > .sidenav > .moreButton > .name {
+  color: white;
+  font-size: 1.1rem;
+}
+body > .sidenav > .moreButton:hover {
+  background: #1a1a1a;
+  cursor: pointer;
+}
+body > .sidenav > .moreButton:hover > i {
+  transform: scale(1.1);
+}
+
+@media (max-width: 1919px) {
+  body > .sidenav {
+    width: 244px;
+  }
+}
+@media (max-width: 1264px) {
+  body > .sidenav {
+    width: 72px;
+  }
+  body > .sidenav > .logoParent {
+    padding: 5px;
+  }
+  body > .sidenav > .logoParent > .text {
+    display: none;
+  }
+  body > .sidenav > .paneButtons > .pButton > .name {
+    display: none;
+  }
+  body > .sidenav > .paneButtons > .pButton > .avatar {
+    margin-right: 0;
+  }
+  body > .sidenav > .moreButton > .name {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  body > .sidenav {
+    z-index: 999;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 48px;
+    width: 100%;
+    padding: 0 30px;
+    border-right: none;
+    border-top: 1px solid #262626;
+    flex-direction: row;
+    justify-content: center;
+  }
+  body > .sidenav > .logoParent, body > .sidenav > .moreButton {
+    display: none;
+  }
+  body > .sidenav > .paneButtons {
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 0;
+    height: 100%;
+    width: 100%;
+  }
+  body > .sidenav > .paneButtons > .pButton {
+    width: unset;
+  }
+  body > .sidenav > .paneButtons > .pButton > i, body > .sidenav > .paneButtons > .pButton > .avatar {
+    margin-right: 0;
+  }
+  body > .sidenav > .paneButtons > .pButton:hover {
+    background: unset;
+  }
+}
+@media (max-width: 425px) {
+  body > .sidenav {
+    padding: 0 10px;
+  }
+}
+@media (max-width: 360px) {
+  body > .sidenav > .paneButtons > .pButton {
+    padding: 4px;
+  }
+}
+
+/*# sourceMappingURL=sidenav.css.map */
