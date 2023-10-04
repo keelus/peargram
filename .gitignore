@@ -10,3 +10,4 @@ web/assets/media/images/*
 # exception to the rule
 !web/assets/media/images/uploadModalPlaceholder.jpg
 !web/assets/media/images/uploadModalFilter.jpg
+!web/assets/media/images/defaultAvatar.webp
