@@ -35,6 +35,12 @@ body > .content {
   border-radius: 50%;
 }
 
+.preventSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 body > .sidenav {
   width: 335px;
   height: 100%;

@@ -54,6 +54,17 @@ function SetupListeners(){
 async function SendMessage(Content : string) {
 	
 	const TargetUser : string = window.location.href.split("/messages/")[1]
+	
+	const ContentMessages = document.querySelectorAll(".contentMessages")[0]
+	const ContentMessagesPreSend = ContentMessages.innerHTML
+	ContentMessages.innerHTML = `<div class="message sending">${Content}</div>` + ContentMessages.innerHTML
+	document.querySelectorAll(".content.messages #SendButton")[0].classList.remove("show")
+	document.querySelectorAll(".content.messages #MediaButton")[0].classList.add("show")
+	const MessageField : HTMLInputElement = document.querySelectorAll(".content.messages #MessageField")[0] as HTMLInputElement
+	MessageField.value = ""
+	MessageField.disabled = true
+	MessageField.parentElement?.classList.add("disabled")
+	// We visually send the message
 
 	let response : Response = await fetch("/api/messages/sendMessage", {
 		method:'POST',
@@ -66,19 +77,18 @@ async function SendMessage(Content : string) {
 	if( response.ok ) {
 		if( response.status == 200) {
 			console.log("📭 Message sent.")
-
-			const ContentMessages = document.querySelectorAll(".contentMessages")[0]
-
-			ContentMessages.innerHTML = `<div class="message">${Content}</div>` + ContentMessages.innerHTML
-			
-			document.querySelectorAll(".content.messages #SendButton")[0].classList.remove("show")
-			document.querySelectorAll(".content.messages #MediaButton")[0].classList.add("show")
-			const MessageField : HTMLInputElement = document.querySelectorAll(".content.messages #MessageField")[0] as HTMLInputElement
-			MessageField.value = ""
+			MessageField.disabled = false
+			MessageField.parentElement?.classList.remove("disabled")
 			MessageField.focus()
-		} else {
-			console.log(`Error!`);
+			ContentMessages.innerHTML = `<div class="message sent">${Content}</div>` + ContentMessagesPreSend
+
 		}
+	} else {
+		console.log(`Error!`);
+		MessageField.disabled = false
+		MessageField.parentElement?.classList.remove("disabled")
+		MessageField.focus()
+		ContentMessages.innerHTML = `<div class="message error">${Content}</div>` + ContentMessagesPreSend
 	}
 }
 

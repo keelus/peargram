@@ -35,4 +35,10 @@ body > .content {
   border-radius: 50%;
 }
 
+.preventSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /*# sourceMappingURL=global.css.map */

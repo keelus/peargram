@@ -35,6 +35,12 @@ body > .content {
   border-radius: 50%;
 }
 
+.preventSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .content.profile {
   flex: 1;
   display: flex;

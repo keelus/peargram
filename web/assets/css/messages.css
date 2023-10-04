@@ -35,6 +35,12 @@ body > .content {
   border-radius: 50%;
 }
 
+.preventSelect, .content.messages {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .content.messages {
   flex: 1;
   display: flex;
@@ -252,7 +258,7 @@ body > .content {
   background: #262626;
 }
 .content.messages > .main > .contentMessages > .message {
-  background: #a0b913;
+  background: #262626;
   width: fit-content;
   min-height: 34px;
   display: flex;
@@ -262,10 +268,83 @@ body > .content {
   color: white;
   border-radius: 50px 7.5px 50px 50px;
   margin-left: auto;
+  position: relative;
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).sending {
+  background: rgba(160, 185, 19, 0.5);
+  color: rgb(168, 168, 168);
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).sending::after {
+  content: "SENDING...";
+  text-align: right;
+  white-space: pre;
+  font-size: 10px;
+  color: rgb(168, 168, 168);
+  position: absolute;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  left: -10px;
+  background: #000000;
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).sending::before {
+  content: "\f069";
+  text-align: right;
+  white-space: pre;
+  font-size: 15px;
+  color: rgb(168, 168, 168);
+  position: absolute;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  left: -67.5px;
+  background: #000000;
+  font-family: "tabler-icons" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).error {
+  background: rgb(185, 28, 28);
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).error::after {
+  content: "NOT SENT\aTRY AGAIN";
+  text-align: right;
+  white-space: pre;
+  font-size: 10px;
+  color: rgb(168, 168, 168);
+  color: rgb(185, 28, 28);
+  position: absolute;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  left: -10px;
+  background: #000000;
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).error::before {
+  content: "\f634";
+  text-align: right;
+  white-space: pre;
+  font-size: 15px;
+  color: rgb(185, 28, 28);
+  position: absolute;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  left: -67.5px;
+  background: #000000;
+  font-family: "tabler-icons" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+.content.messages > .main > .contentMessages > .message:not(.incoming).sent {
+  background: #a0b913;
 }
 .content.messages > .main > .contentMessages > .message.incoming {
   margin-left: 0;
-  background: #262626;
   border-radius: 50px 50px 50px 7.5px;
 }
 .content.messages > .main > .bottom {
@@ -284,6 +363,7 @@ body > .content {
   border: 1px solid #262626;
   border-radius: 50px;
   display: flex;
+  transition: all 0.15s linear;
 }
 .content.messages > .main > .bottom > .inner > .button {
   width: 30px;
@@ -297,12 +377,6 @@ body > .content {
   color: white;
   font-size: 30px;
 }
-.content.messages > .main > .bottom > .inner > .button:hover {
-  cursor: pointer;
-}
-.content.messages > .main > .bottom > .inner > .button:hover > i {
-  color: rgba(255, 255, 255, 0.788);
-}
 .content.messages > .main > .bottom > .inner > .button.send {
   display: none;
   color: #CED74D;
@@ -314,6 +388,12 @@ body > .content {
 .content.messages > .main > .bottom > .inner > .button.show {
   display: flex;
 }
+.content.messages > .main > .bottom > .inner:not(.disabled) > .button:hover {
+  cursor: pointer;
+}
+.content.messages > .main > .bottom > .inner:not(.disabled) > .button:hover > i {
+  color: rgba(255, 255, 255, 0.788);
+}
 .content.messages > .main > .bottom > .inner > input {
   border: none;
   background: none;
@@ -321,6 +401,13 @@ body > .content {
   outline: none;
   font-size: 15px;
   width: 100%;
+}
+.content.messages > .main > .bottom > .inner.disabled {
+  background: #1a1a1a;
+  opacity: 0.6;
+}
+.content.messages > .main > .bottom > .inner.disabled:hover, .content.messages > .main > .bottom > .inner.disabled > *:hover {
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

@@ -50,8 +50,19 @@ function SetupListeners() {
     });
 }
 function SendMessage(Content) {
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         const TargetUser = window.location.href.split("/messages/")[1];
+        const ContentMessages = document.querySelectorAll(".contentMessages")[0];
+        const ContentMessagesPreSend = ContentMessages.innerHTML;
+        ContentMessages.innerHTML = `<div class="message sending">${Content}</div>` + ContentMessages.innerHTML;
+        document.querySelectorAll(".content.messages #SendButton")[0].classList.remove("show");
+        document.querySelectorAll(".content.messages #MediaButton")[0].classList.add("show");
+        const MessageField = document.querySelectorAll(".content.messages #MessageField")[0];
+        MessageField.value = "";
+        MessageField.disabled = true;
+        (_a = MessageField.parentElement) === null || _a === void 0 ? void 0 : _a.classList.add("disabled");
+        // We visually send the message
         let response = yield fetch("/api/messages/sendMessage", {
             method: 'POST',
             headers: {
@@ -63,17 +74,18 @@ function SendMessage(Content) {
         if (response.ok) {
             if (response.status == 200) {
                 console.log("📭 Message sent.");
-                const ContentMessages = document.querySelectorAll(".contentMessages")[0];
-                ContentMessages.innerHTML = `<div class="message">${Content}</div>` + ContentMessages.innerHTML;
-                document.querySelectorAll(".content.messages #SendButton")[0].classList.remove("show");
-                document.querySelectorAll(".content.messages #MediaButton")[0].classList.add("show");
-                const MessageField = document.querySelectorAll(".content.messages #MessageField")[0];
-                MessageField.value = "";
+                MessageField.disabled = false;
+                (_b = MessageField.parentElement) === null || _b === void 0 ? void 0 : _b.classList.remove("disabled");
                 MessageField.focus();
+                ContentMessages.innerHTML = `<div class="message sent">${Content}</div>` + ContentMessagesPreSend;
             }
-            else {
-                console.log(`Error!`);
-            }
+        }
+        else {
+            console.log(`Error!`);
+            MessageField.disabled = false;
+            (_c = MessageField.parentElement) === null || _c === void 0 ? void 0 : _c.classList.remove("disabled");
+            MessageField.focus();
+            ContentMessages.innerHTML = `<div class="message error">${Content}</div>` + ContentMessagesPreSend;
         }
     });
 }

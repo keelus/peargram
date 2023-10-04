@@ -40,7 +40,6 @@ func POSTSendMessage(c *gin.Context) {
 	target := requestBody.Target
 	content := requestBody.Content
 
-	target = "user39399393"
 	err := messages.SendMessage(currentUsername, target, content)
 	if err != nil {
 		fmt.Printf("ERROR SENDING MESSAGE. Info: %s\n", err)

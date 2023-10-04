@@ -33,7 +33,7 @@ func GetAvatar(username string) string {
 func UserExists(username string) bool {
 	DB := database.ConnectDB()
 	exists := false
-	err := DB.QueryRowx("SELECT EXISTS(SELECT * FROM users WHERE username=?)", username).StructScan(&exists)
+	err := DB.QueryRowx("SELECT EXISTS(SELECT * FROM users WHERE username=?)", username).Scan(&exists)
 	if err != nil {
 		return false
 	}

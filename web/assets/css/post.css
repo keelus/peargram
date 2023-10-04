@@ -35,6 +35,12 @@ body > .content {
   border-radius: 50%;
 }
 
+.preventSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 body > .content.post {
   flex: 1;
   display: flex;
@@ -111,7 +117,7 @@ body > .content.post > .main > .post > .content > img {
   height: auto;
 }
 body > .content.post > .main > .post > .bottom {
-  padding: 10px 12.5px 0 12.5px;
+  padding: 0 12.5px 0 12.5px;
   box-sizing: border-box;
   border-top: 1px solid #363636;
 }

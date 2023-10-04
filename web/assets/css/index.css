@@ -35,6 +35,12 @@ body > .content {
   border-radius: 50%;
 }
 
+.preventSelect {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .content.index {
   flex: 1;
   display: flex;
@@ -120,7 +126,7 @@ body > .content {
   height: auto;
 }
 .content.index > .main > .posts > .post > .bottom {
-  padding: 10px 12.5px 15px 12.5px;
+  padding: 0 12.5px 15px 12.5px;
   box-sizing: border-box;
 }
 .content.index > .main > .posts > .post > .bottom > .actions {

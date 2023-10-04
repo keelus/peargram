@@ -44,7 +44,7 @@
 					{{ if eq $Message.Actor (index $.ActiveChat.Participants 1)}}
 						<div class="message incoming">{{- $Message.Content -}}</div>
 					{{ else }}
-						<div class="message">{{- $Message.Content -}}</div>
+						<div class="message sent">{{- $Message.Content -}}</div>
 					{{ end }}
 				{{ end }}
 				<div class="start">
