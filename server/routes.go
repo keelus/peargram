@@ -43,7 +43,8 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/ws", handler.WebSocketConnect)
 
-	// r.NoRoute(func(c *gin.Context) {
+	r.NoRoute(paneHandler.Error404)
+	// 	func(c *gin.Context) {
 	// 	utils.ForceError(http.StatusNotFound, c, "")
 	// })
 

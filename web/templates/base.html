@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="/assets/css/notifications.css">
 	<link rel="stylesheet" href="/assets/css/search.css">
 	<link rel="stylesheet" href="/assets/css/post.css">
+	<link rel="stylesheet" href="/assets/css/error.css">
 
 	<link rel="stylesheet" href="/assets/media/fonts/webfont/tabler-icons.min.css">
 
@@ -36,6 +37,8 @@
 		{{ template "profile.html". }}
 	{{ else if eq .LoadPane "post" }}
 		{{ template "post.html". }}
+	{{ else if eq .LoadPane "error404" }}
+		{{ template "404.html". }}
 	{{ end }}
 </body>
 </html>
