@@ -8,6 +8,7 @@ import (
 	"peargram/notifications"
 	"peargram/users"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/sessions"
@@ -118,15 +119,14 @@ func POSTSigninEndpoint(c *gin.Context) {
 	credential := c.PostForm("credential")
 	// g_csrf_token := c.PostForm("g_csrf_token")
 	userInfo := decodeToken(credential)
-	userEmail := userInfo["email"]
+	userEmail := strings.ToLower(userInfo["email"].(string))
 	// userAvatar := userInfo["picture"]
 
 	DB := database.ConnectDB()
 
 	// Check if user is in pending sign up
 	userExists := false
-	DB.QueryRow("SELECT EXISTS(SELECT * FROM pendingSignups WHERE email=?)", userEmail).Scan(&userExists)
-
+	DB.QueryRow("SELECT EXISTS(SELECT * FROM pendingSignups WHERE lower(email)=?)", userEmail).Scan(&userExists)
 	if userExists {
 		session := sessions.Default(c)
 		session.Clear()
@@ -139,7 +139,7 @@ func POSTSigninEndpoint(c *gin.Context) {
 
 	// Check DB
 	userExists = false
-	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE email=?)", userEmail).Scan(&userExists)
+	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE lower(email)=?)", userEmail).Scan(&userExists)
 
 	if !userExists {
 		c.Redirect(http.StatusFound, "/auth/signin?error=notexists")
@@ -147,7 +147,7 @@ func POSTSigninEndpoint(c *gin.Context) {
 	}
 
 	username := ""
-	err := DB.QueryRow("SELECT username FROM users WHERE email=?", userEmail).Scan(&username)
+	err := DB.QueryRow("SELECT username FROM users WHERE lower(email)=?", userEmail).Scan(&username)
 	if err != nil {
 		fmt.Println(err)
 		c.Status(http.StatusInternalServerError)
@@ -172,14 +172,14 @@ func POSTSignupEndpoint(c *gin.Context) {
 	credential := c.PostForm("credential")
 
 	userInfo := decodeToken(credential)
-	userEmail := userInfo["email"]
+	userEmail := strings.ToLower(userInfo["email"].(string))
 	// userAvatar := userInfo["picture"]
 	// TODO: ^
 
 	// Check DB
 	userExists := false
 	DB := database.ConnectDB()
-	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE email=?)", userEmail).Scan(&userExists)
+	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE lower(email)=?)", userEmail).Scan(&userExists)
 
 	if userExists {
 		c.Redirect(http.StatusFound, "/auth/signup?error=exists")
@@ -188,7 +188,7 @@ func POSTSignupEndpoint(c *gin.Context) {
 
 	// Check if user is in pending sign up
 	userExists = false
-	DB.QueryRow("SELECT EXISTS(SELECT * FROM pendingSignups WHERE googleEmail=?)", userEmail).Scan(&userExists)
+	DB.QueryRow("SELECT EXISTS(SELECT * FROM pendingSignups WHERE lower(googleEmail)=?)", userEmail).Scan(&userExists)
 
 	session := sessions.Default(c)
 	session.Clear()
@@ -229,6 +229,15 @@ func POSTEndSignup(c *gin.Context) {
 	session := sessions.Default(c)
 	currentEmail := session.Get("Email")
 
+	pendingSignupExists := false
+	DB := database.ConnectDB()
+	DB.QueryRow("SELECT EXISTS(SELECT * FROM pendingSignups WHERE lower(email)=?)", currentEmail).Scan(&pendingSignupExists)
+
+	if pendingSignupExists { // TODO: Handle if exists on error side. Log in? Clear session? Apply session?
+		c.JSON(http.StatusBadRequest, gin.H{"errorID": ERROR_UNEXPECTED})
+		return
+	}
+
 	var requestBody EndSignupBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
@@ -250,8 +259,7 @@ func POSTEndSignup(c *gin.Context) {
 	}
 
 	userExists := false
-	DB := database.ConnectDB()
-	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE username=?)", desiredUsnm).Scan(&userExists)
+	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE lower(username)=?)", strings.ToLower(desiredUsnm)).Scan(&userExists)
 
 	if userExists {
 		c.JSON(http.StatusBadRequest, gin.H{"errorID": ERROR_IN_USE})
@@ -260,7 +268,7 @@ func POSTEndSignup(c *gin.Context) {
 
 	// Then user can be registered:
 
-	_, err := DB.Exec("DELETE FROM pendingSignups WHERE googleEmail=?", currentEmail)
+	_, err := DB.Exec("DELETE FROM pendingSignups WHERE lower(googleEmail)=?", currentEmail)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"errorID": ERROR_UNEXPECTED})
