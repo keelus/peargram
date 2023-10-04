@@ -9,23 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-func ForceError(codigoErrorHttp int, c *gin.Context, razonVisual string) {
-	if c.Query("type") == "short" {
-		c.HTML(http.StatusOK, "error", gin.H{
-			"CodigoError": codigoErrorHttp,
-			"TextoError":  http.StatusText(codigoErrorHttp),
-			"Detalles":    razonVisual,
-		})
-	} else {
-		c.HTML(http.StatusOK, "base", gin.H{
-			"panelToLoad": "error",
-			"CodigoError": codigoErrorHttp,
-			"TextoError":  http.StatusText(codigoErrorHttp),
-			"Detalles":    razonVisual,
-		})
-	}
-}
-
 var vConfig *viper.Viper
 
 func LoadEnv() {
@@ -61,4 +44,44 @@ func GetEnv(key string) string {
 func GetAbsolutePath() string {
 	path, _ := os.Getwd()
 	return path
+}
+
+func ForceError(codigoErrorHttp int, c *gin.Context, razonVisual string) {
+	if c.Query("type") == "short" {
+		c.HTML(http.StatusOK, "error", gin.H{
+			"CodigoError": codigoErrorHttp,
+			"TextoError":  http.StatusText(codigoErrorHttp),
+			"Detalles":    razonVisual,
+		})
+	} else {
+		c.HTML(http.StatusOK, "base", gin.H{
+			"panelToLoad": "error",
+			"CodigoError": codigoErrorHttp,
+			"TextoError":  http.StatusText(codigoErrorHttp),
+			"Detalles":    razonVisual,
+		})
+	}
+}
+
+func DOMError(c *gin.Context, errorCode int) {
+
+	title := "Something's broken..."
+	if errorCode == http.StatusNotFound {
+		title = "Something's missing..."
+	}
+
+	if c.Query("type") == "short" {
+		c.HTML(http.StatusOK, "error", gin.H{
+			"Short":     true,
+			"ErrorCode": errorCode,
+			"Title":     title,
+		})
+	} else {
+		c.HTML(http.StatusOK, "error", gin.H{
+			"ErrorCode": errorCode,
+			"Title":     title,
+		})
+	}
+
+	c.AbortWithError(errorCode, fmt.Errorf("Aborted. Error code: %d", errorCode))
 }

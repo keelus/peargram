@@ -262,14 +262,14 @@ func Renderer() multitemplate.Renderer {
 		},
 	}
 
-	r.AddFromFilesFuncs("base", funcs, "web/templates/base.html", "web/templates/sidenav.html", "web/templates/index.html", "web/templates/search.html", "web/templates/messages.html", "web/templates/notifications.html", "web/templates/profile.html", "web/templates/post.html", "web/templates/404.html")
+	r.AddFromFilesFuncs("base", funcs, "web/templates/base.html", "web/templates/sidenav.html", "web/templates/index.html", "web/templates/search.html", "web/templates/messages.html", "web/templates/notifications.html", "web/templates/profile.html", "web/templates/post.html", "web/templates/error.html")
 	r.AddFromFilesFuncs("index", funcs, "web/templates/index.html")
 	r.AddFromFilesFuncs("search", funcs, "web/templates/search.html")
 	r.AddFromFilesFuncs("messages", funcs, "web/templates/messages.html")
 	r.AddFromFilesFuncs("notifications", funcs, "web/templates/notifications.html")
 	r.AddFromFilesFuncs("profile", funcs, "web/templates/profile.html")
 
-	r.AddFromFilesFuncs("error404", funcs, "web/templates/404.html")
+	r.AddFromFilesFuncs("error", funcs, "web/templates/error.html")
 
 	r.AddFromFilesFuncs("post", funcs, "web/templates/post.html")
 

@@ -125,8 +125,7 @@ func ProfilePane(c *gin.Context) {
 	var profileData models.UserDetails
 	profileData, exists := users.GetUserDetails(username)
 	if !exists {
-		c.String(http.StatusNotFound, "404 not found.")
-		// c.Status(http.StatusNotFound)
+		utils.DOMError(c, http.StatusNotFound)
 		return
 	}
 
@@ -217,17 +216,4 @@ func CurrentUserData(c *gin.Context) models.UserDetails {
 func EndSignup(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "endSignup", gin.H{})
-}
-
-func Error404(c *gin.Context) {
-	if c.Query("type") == "short" {
-		c.HTML(http.StatusOK, "error404", gin.H{
-			"User": CurrentUserData(c),
-		})
-	} else {
-		c.HTML(http.StatusOK, "base", gin.H{
-			"LoadPane": "error404",
-			"User":     CurrentUserData(c),
-		})
-	}
 }

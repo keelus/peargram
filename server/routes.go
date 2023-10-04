@@ -10,6 +10,7 @@ import (
 	"peargram/server/handlers/paneHandler"
 	"peargram/server/websocketing/handler"
 	"peargram/users"
+	"peargram/utils"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -43,10 +44,11 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/ws", handler.WebSocketConnect)
 
-	r.NoRoute(paneHandler.Error404)
-	// 	func(c *gin.Context) {
-	// 	utils.ForceError(http.StatusNotFound, c, "")
-	// })
+	r.NoRoute(
+		func(c *gin.Context) {
+			utils.DOMError(c, http.StatusNotFound)
+		},
+	)
 
 	mainGroup := r.Group("/")
 	{
