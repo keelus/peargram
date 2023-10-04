@@ -55,3 +55,9 @@ body > .content {
 	background-position: center;
 	border-radius: 50%;
 }
+
+.preventSelect {
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}

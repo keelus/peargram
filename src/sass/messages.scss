@@ -7,6 +7,7 @@
 	width:100%;
 	height:100%;
 	position:relative;
+	@extend .preventSelect;
 	
 	
 	& > .sidepanel {
@@ -240,7 +241,7 @@
 			}
 
 			& > .message {
-				background:$green-2;
+				background:$background-4;
 				width:fit-content;
 				min-height:34px;
 				display:flex;
@@ -250,12 +251,97 @@
 				color:white;
 				border-radius:50px 7.5px 50px 50px;
 				margin-left:auto;
+				position:relative;
+
+
+
+				&:not(.incoming) {
+					&.sending {
+						background:rgba($green-2, .5);
+						color:$font-3;
+
+						&::after {
+							content:'SENDING...';
+							text-align: right;
+							white-space: pre;
+							font-size:10px;
+							color:$font-3;
+							position: absolute;
+							top:50%;
+							transform:translate(-100%, -50%);
+							left:-10px;
+							background:$background-1;
+						}
+						
+						&::before {
+							content: '\f069';
+							text-align: right;
+							white-space: pre;
+							font-size:15px;
+							color:$font-3;
+							position: absolute;
+							top:50%;
+							transform:translate(-100%, -50%);
+							left:-67.5px;
+							background:$background-1;
+
+							font-family: "tabler-icons" !important;
+							speak: none;
+							font-style: normal;
+							font-weight: normal;
+							font-variant: normal;
+							text-transform: none;
+							line-height: 1;
+						}
+					}
+					&.error {
+						background:$red-2;
+						
+						&::after {
+							content:'NOT SENT\ATRY AGAIN';
+							text-align: right;
+							white-space: pre;
+							font-size:10px;
+							color:$font-3;
+							color:$red-2;
+							position: absolute;
+							top:50%;
+							transform:translate(-100%, -50%);
+							left:-10px;
+							background:$background-1;
+						}
+						
+						&::before {
+							content: '\f634';
+							text-align: right;
+							white-space: pre;
+							font-size:15px;
+							color:$red-2;
+							position: absolute;
+							top:50%;
+							transform:translate(-100%, -50%);
+							left:-67.5px;
+							background:$background-1;
+
+							font-family: "tabler-icons" !important;
+							speak: none;
+							font-style: normal;
+							font-weight: normal;
+							font-variant: normal;
+							text-transform: none;
+							line-height: 1;
+						}
+					}
+					&.sent {
+						background:$green-2;
+					}
+				}
 
 				&.incoming {
 					margin-left:0;
-					background:$background-4;
 					border-radius:50px 50px 50px 7.5px;
 				}
+				
 			}
 		}
 
@@ -277,6 +363,7 @@
 				@extend .avatarBase;
 				border-radius:50px;
 				display:flex;
+				transition: all .15s linear;
 
 				& > .button {
 					width:30px;
@@ -289,12 +376,6 @@
 					& > i {
 						color:$font-1;
 						font-size: 30px;
-					}
-					&:hover {
-						cursor:pointer;
-						& > i {
-							color:$font-2;
-						}
 					}
 
 					&.send {
@@ -311,6 +392,15 @@
 						display:flex;
 					}
 				}
+				&:not(.disabled) {
+					& > .button:hover {
+						cursor:pointer;
+						& > i {
+							color:$font-2;
+						}
+					}
+
+				}
 
 				& > input {
 					border:none;
@@ -319,6 +409,15 @@
 					outline:none;
 					font-size:15px;
 					width:100%;
+				}
+
+				&.disabled {
+					background:$background-3;
+					opacity:.6;
+					
+					&:hover, & > *:hover {
+						cursor:not-allowed;
+					}
 				}
 			}
 		}
