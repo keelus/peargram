@@ -30,6 +30,16 @@ func GetAvatar(username string) string {
 	return avatar
 }
 
+func UserExists(username string) bool {
+	DB := database.ConnectDB()
+	exists := false
+	err := DB.QueryRowx("SELECT EXISTS(SELECT * FROM users WHERE username=?)", username).StructScan(&exists)
+	if err != nil {
+		return false
+	}
+	return exists
+}
+
 func GetUserDetails(username string) (models.UserDetails, bool) {
 	var userDetails models.UserDetails
 

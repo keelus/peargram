@@ -49,16 +49,22 @@ function SetupListeners() {
         SendMessage(MessageContent);
     });
 }
-function SendMessage(content) {
+function SendMessage(Content) {
     return __awaiter(this, void 0, void 0, function* () {
         const TargetUser = window.location.href.split("/messages/")[1];
-        let response = yield fetch(`/api/messages/sendMessage/${TargetUser}/${content}`);
+        let response = yield fetch("/api/messages/sendMessage", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ target: TargetUser, content: Content }),
+        });
         let result = "";
         if (response.ok) {
             if (response.status == 200) {
                 console.log("📭 Message sent.");
                 const ContentMessages = document.querySelectorAll(".contentMessages")[0];
-                ContentMessages.innerHTML = `<div class="message">${content}</div>` + ContentMessages.innerHTML;
+                ContentMessages.innerHTML = `<div class="message">${Content}</div>` + ContentMessages.innerHTML;
                 document.querySelectorAll(".content.messages #SendButton")[0].classList.remove("show");
                 document.querySelectorAll(".content.messages #MediaButton")[0].classList.add("show");
                 const MessageField = document.querySelectorAll(".content.messages #MessageField")[0];

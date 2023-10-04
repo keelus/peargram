@@ -6,20 +6,25 @@ import (
 	"peargram/models"
 	wsHandler "peargram/server/websocketing/handler"
 	"peargram/server/websocketing/ws"
+	"peargram/users"
 	"sort"
 	"time"
 )
 
-func SendMessage(actor string, target string, content string) {
+func SendMessage(actor string, target string, content string) error {
 	DB := database.ConnectDB()
 
 	date := time.Now().Unix()
 
+	// TODO: Check user exists
+	if !users.UserExists(target) {
+		return fmt.Errorf("User does not exist.")
+	}
 	// TODO IN DB: CHECK INT FILTER
 	_, err := DB.Query("INSERT INTO messages (actor, target, content, date) VALUES (?, ?, ?, ?)", actor, target, content, date)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 
 	fmt.Println("Message sent")
@@ -39,9 +44,11 @@ func SendMessage(actor string, target string, content string) {
 		if username == target {
 			fmt.Println("Message via Websocket sent")
 			ws.NewChatMessage(wsHandler.GetClients(), wsHandler.GetClients()[target], sendingMessage)
-			return
+			return nil
 		}
 	}
+
+	return nil
 
 }
 

@@ -1,6 +1,7 @@
 package messagesApi
 
 import (
+	"fmt"
 	"net/http"
 	"peargram/messages"
 
@@ -19,13 +20,30 @@ func GETMessages(c *gin.Context) {
 	c.JSON(http.StatusOK, chat)
 }
 
-func GETSendMessage(c *gin.Context) {
+type SendMessageBody struct {
+	Target  string
+	Content string
+}
+
+func POSTSendMessage(c *gin.Context) {
 	session := sessions.Default(c)
 	currentUsername := session.Get("Username").(string)
 
-	target := c.Param("target")
-	content := c.Param("content")
+	var requestBody SendMessageBody
 
-	messages.SendMessage(currentUsername, target, content)
+	if err := c.BindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		fmt.Println(err)
+		return
+	}
 
+	target := requestBody.Target
+	content := requestBody.Content
+
+	target = "user39399393"
+	err := messages.SendMessage(currentUsername, target, content)
+	if err != nil {
+		fmt.Printf("ERROR SENDING MESSAGE. Info: %s\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+	}
 }

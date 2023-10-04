@@ -51,11 +51,17 @@ function SetupListeners(){
 
 }
 
-async function SendMessage(content : string) {
+async function SendMessage(Content : string) {
 	
 	const TargetUser : string = window.location.href.split("/messages/")[1]
 
-	let response : Response = await fetch(`/api/messages/sendMessage/${TargetUser}/${content}`);
+	let response : Response = await fetch("/api/messages/sendMessage", {
+		method:'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ target: TargetUser, content: Content }),
+	});
 	let result : string = "";
 	if( response.ok ) {
 		if( response.status == 200) {
@@ -63,7 +69,7 @@ async function SendMessage(content : string) {
 
 			const ContentMessages = document.querySelectorAll(".contentMessages")[0]
 
-			ContentMessages.innerHTML = `<div class="message">${content}</div>` + ContentMessages.innerHTML
+			ContentMessages.innerHTML = `<div class="message">${Content}</div>` + ContentMessages.innerHTML
 			
 			document.querySelectorAll(".content.messages #SendButton")[0].classList.remove("show")
 			document.querySelectorAll(".content.messages #MediaButton")[0].classList.add("show")

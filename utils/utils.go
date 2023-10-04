@@ -83,5 +83,5 @@ func DOMError(c *gin.Context, errorCode int) {
 		})
 	}
 
-	c.AbortWithError(errorCode, fmt.Errorf("Aborted. Error code: %d", errorCode))
+	c.AbortWithError(errorCode, fmt.Errorf("Aborted on {Method:%s, URL:%s} ::  Error code: %d", c.Request.Method, c.Request.URL.Path, errorCode))
 }
