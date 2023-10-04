@@ -251,7 +251,7 @@ func POSTEndSignup(c *gin.Context) {
 	DB.QueryRow("SELECT EXISTS(SELECT * FROM pendingSignups WHERE lower(email)=?)", currentEmail).Scan(&pendingSignupExists)
 
 	if pendingSignupExists { // TODO: Handle if exists on error side. Log in? Clear session? Apply session?
-		c.JSON(http.StatusBadRequest, gin.H{"errorID": ERROR_UNEXPECTED})
+		c.JSON(http.StatusInternalServerError, gin.H{"errorID": ERROR_UNEXPECTED})
 		return
 	}
 
@@ -266,7 +266,7 @@ func POSTEndSignup(c *gin.Context) {
 	errorID := ValidateUsername(desiredUsnm)
 
 	if errorID != -1 {
-		httpStatus := http.StatusBadRequest
+		httpStatus := http.StatusUnprocessableEntity
 		if errorID == ERROR_UNEXPECTED {
 			httpStatus = http.StatusInternalServerError
 			return
@@ -279,7 +279,7 @@ func POSTEndSignup(c *gin.Context) {
 	DB.QueryRow("SELECT EXISTS(SELECT * FROM users WHERE lower(username)=?)", strings.ToLower(desiredUsnm)).Scan(&userExists)
 
 	if userExists {
-		c.JSON(http.StatusBadRequest, gin.H{"errorID": ERROR_IN_USE})
+		c.JSON(http.StatusConflict, gin.H{"errorID": ERROR_IN_USE})
 		return
 	}
 
@@ -293,7 +293,7 @@ func POSTEndSignup(c *gin.Context) {
 	fmt.Println(userAvatar)
 
 	if pendingSignupExists { // TODO: Handle if exists on error side. Log in? Clear session? Apply session?
-		c.JSON(http.StatusBadRequest, gin.H{"errorID": ERROR_UNEXPECTED})
+		c.JSON(http.StatusInternalServerError, gin.H{"errorID": ERROR_UNEXPECTED})
 		return
 	}
 
