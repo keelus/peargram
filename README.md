@@ -1,6 +1,7 @@
 # Peargram - An Instagram full stack clone written in Golang & Typescript
 <b>In early development.</b>
 
+✌️ Check TO-DOs & bugs: [https://trello.com/b/cHmDEZV8/peargram](https://trello.com/b/cHmDEZV8/peargram)
 
 ## Pre execution configuration:
 #### Environment variables
