@@ -41,13 +41,14 @@ func NewMessage(clients client.WebSocketClientsPool, cl client.WebSocketClient, 
 }
 
 func broadcast(clients client.WebSocketClientsPool, cl client.WebSocketClient, msg model.WebSocketMessage) {
-	var clientList []string
-	for username, _ := range clients {
-		clientList = append(clientList, username)
-	}
-	for _, username := range clientList {
-		clients[username].Write(msg)
-	}
+	// var clientList []string
+	// for username, _ := range clients {
+	// 	clientList = append(clientList, username)
+	// }
+	// for _, username := range clientList {
+	// 	clients[username].Write(msg)
+	// }
+	cl.Write(msg)
 	// array.ForEach(
 	// 	array.Except(clients, func(item client.WebSocketClient) bool { return item.Id() == cl.Id() }),
 	// 	func(item client.WebSocketClient) { item.Write(msg) },

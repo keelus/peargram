@@ -6,29 +6,9 @@ SessionWS.onmessage = e => {
     console.log(MessageData);
     if (MessageData.type == "MESSAGE") {
         console.log("💬 private message received.");
+        const messageReceivedEvent = new MessageReceivedEvent(MessageData.Content);
+        document.dispatchEvent(messageReceivedEvent);
         // Check current user panel
-        let currentURL = window.location.pathname;
-        let urlParts = currentURL.split("/");
-        urlParts = urlParts.filter((item) => {
-            return item !== "";
-        });
-        console.log(urlParts);
-        console.log(urlParts.length);
-        if (urlParts[0] == "messages") {
-            // UPDATE LEFT BAR TODO
-            if (urlParts.length == 2) { // Is in a chat
-                const ChatUsername = urlParts[1];
-                // console.log(ChatUsername)
-                // console.log(MessageData.actor)
-                if (MessageData.Content.Actor == ChatUsername) {
-                    // console.log("Update current chat!!!")
-                    const messageReceivedEvent = new MessageReceivedEvent(MessageData.Content);
-                    document.dispatchEvent(messageReceivedEvent);
-                    // const ContentMessages : HTMLElement = document.querySelectorAll(".contentMessages")[0] as HTMLElement
-                    // ContentMessages.innerHTML = `<div class="message incoming">${MessageData.Content.Content}</div>` + ContentMessages.innerHTML
-                }
-            }
-        }
         // TODO: Show a notification icon on messages?
     }
     else if (MessageData.type == "NOTIFICATION") {

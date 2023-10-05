@@ -92,8 +92,29 @@ function SendMessage(Content) {
 document.addEventListener("messageReceived", (e) => {
     const messageReceivedEvent = e;
     console.log(messageReceivedEvent.messageContent);
-    const ContentMessages = document.querySelectorAll(".contentMessages")[0];
-    ContentMessages.innerHTML = `<div class="message incoming">${messageReceivedEvent.messageContent.Content}</div>` + ContentMessages.innerHTML;
+    console.log("✅📨👍⚠️");
+    let currentURL = window.location.pathname;
+    let urlParts = currentURL.split("/");
+    urlParts = urlParts.filter((item) => {
+        return item !== "";
+    });
+    console.log(urlParts);
+    if (urlParts[0] == "messages") {
+        // UPDATE LEFT BAR TODO
+        console.log("LEFT PART!");
+        if (urlParts.length == 2) { // Is in a chat
+            const ChatUsername = urlParts[1];
+            // console.log(ChatUsername)
+            // console.log(MessageData.actor)
+            if (messageReceivedEvent.messageContent.Actor == ChatUsername) {
+                console.log("Update current chat!!!");
+                const ContentMessages = document.querySelectorAll(".contentMessages")[0];
+                ContentMessages.innerHTML = `<div class="message incoming">${messageReceivedEvent.messageContent.Content}</div>` + ContentMessages.innerHTML;
+                // const ContentMessages : HTMLElement = document.querySelectorAll(".contentMessages")[0] as HTMLElement
+                // ContentMessages.innerHTML = `<div class="message incoming">${MessageData.Content.Content}</div>` + ContentMessages.innerHTML
+            }
+        }
+    }
     let beat = new Audio('/assets/media/audio/message.mp3');
     beat.play();
 });

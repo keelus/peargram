@@ -42,8 +42,7 @@ func SendMessage(actor string, target string, content string) error {
 	wsClients := wsHandler.GetClients()
 	for username := range wsClients {
 		if username == target {
-			fmt.Println("Message via Websocket sent")
-			ws.NewChatMessage(wsHandler.GetClients(), wsHandler.GetClients()[target], sendingMessage)
+			ws.NewChatMessage(wsClients, wsClients[target], sendingMessage)
 			return nil
 		}
 	}
