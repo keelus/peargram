@@ -8,13 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 document.addEventListener("DOMContentLoaded", (e) => {
+    var _a;
     SetupListeners();
+    (_a = document.getElementById("SearchField")) === null || _a === void 0 ? void 0 : _a.focus();
 });
 document.addEventListener("paneLoaded", (e) => {
+    var _a;
     const paneLoadedEvent = e;
     if (!(paneLoadedEvent.paneTarget === "search"))
         return;
     SetupListeners();
+    (_a = document.getElementById("SearchField")) === null || _a === void 0 ? void 0 : _a.focus();
 });
 function SetupListeners() {
     const SearchField = document.querySelectorAll(".content.search #SearchField")[0];

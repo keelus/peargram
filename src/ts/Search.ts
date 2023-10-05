@@ -2,6 +2,7 @@ import { PaneLoadedEvent, MessageReceivedEvent } from "./Structs.js";
 
 document.addEventListener("DOMContentLoaded", (e) => {
 	SetupListeners()
+	document.getElementById("SearchField")?.focus()
 })
 
 document.addEventListener("paneLoaded", (e) => {
@@ -10,6 +11,7 @@ document.addEventListener("paneLoaded", (e) => {
 	if (!(paneLoadedEvent.paneTarget === "search"))
 		return
 	SetupListeners()
+	document.getElementById("SearchField")?.focus()
 })
 
 function SetupListeners() {

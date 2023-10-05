@@ -145,7 +145,7 @@ func POSTSignupEndpoint(c *gin.Context) {
 	userInfo := decodeToken(credential)
 
 	userEmail := strings.ToLower(userInfo["email"].(string))
-	userAvatarUrl := "hola" + userInfo["picture"].(string)
+	userAvatarUrl := userInfo["picture"].(string)
 
 	avatarSizePattern := `=s\d+-c`
 	regex := regexp.MustCompile(avatarSizePattern)
