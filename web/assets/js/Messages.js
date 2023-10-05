@@ -101,17 +101,28 @@ document.addEventListener("messageReceived", (e) => {
     console.log(urlParts);
     if (urlParts[0] == "messages") {
         // UPDATE LEFT BAR TODO
+        const ChatItem = document.querySelector(`.chats > .chat[chat-user='${messageReceivedEvent.messageContent.Actor}']`);
+        const ChatItemDetails = ChatItem.querySelector(`.details > .message`);
+        if (!ChatItemDetails)
+            return;
+        const ChatText = ChatItemDetails.querySelector(".text");
+        const ChatDate = ChatItemDetails.querySelector(".date");
+        ChatText.innerHTML = messageReceivedEvent.messageContent.Content;
+        ChatDate.innerHTML = "•  now";
         console.log("LEFT PART!");
         if (urlParts.length == 2) { // Is in a chat
             const ChatUsername = urlParts[1];
             // console.log(ChatUsername)
             // console.log(MessageData.actor)
-            if (messageReceivedEvent.messageContent.Actor == ChatUsername) {
+            if (messageReceivedEvent.messageContent.Actor == ChatUsername) { // If you are in the oncoming message's chat
                 console.log("Update current chat!!!");
                 const ContentMessages = document.querySelectorAll(".contentMessages")[0];
                 ContentMessages.innerHTML = `<div class="message incoming">${messageReceivedEvent.messageContent.Content}</div>` + ContentMessages.innerHTML;
                 // const ContentMessages : HTMLElement = document.querySelectorAll(".contentMessages")[0] as HTMLElement
                 // ContentMessages.innerHTML = `<div class="message incoming">${MessageData.Content.Content}</div>` + ContentMessages.innerHTML
+            }
+            else {
+                ChatItem.classList.add("hasNotification");
             }
         }
     }

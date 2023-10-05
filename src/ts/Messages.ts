@@ -110,12 +110,23 @@ document.addEventListener("messageReceived", (e) => {
 	console.log(urlParts)
 	if (urlParts[0] == "messages") {
 		// UPDATE LEFT BAR TODO
+		const ChatItem : HTMLElement = document.querySelector(`.chats > .chat[chat-user='${messageReceivedEvent.messageContent.Actor}']`) as HTMLElement
+		const ChatItemDetails : HTMLElement = ChatItem.querySelector(`.details > .message`) as HTMLElement
+		if(!ChatItemDetails) return;
+
+		const ChatText : HTMLElement = ChatItemDetails.querySelector(".text") as HTMLElement
+		const ChatDate : HTMLElement = ChatItemDetails.querySelector(".date") as HTMLElement
+
+		ChatText.innerHTML = messageReceivedEvent.messageContent.Content;
+		ChatDate.innerHTML = "•  now"
+		
+
 		console.log("LEFT PART!")
 		if(urlParts.length == 2) { // Is in a chat
 			const ChatUsername : string = urlParts[1]
 			// console.log(ChatUsername)
 			// console.log(MessageData.actor)
-			if(messageReceivedEvent.messageContent.Actor == ChatUsername) {
+			if(messageReceivedEvent.messageContent.Actor == ChatUsername) { // If you are in the oncoming message's chat
 				console.log("Update current chat!!!")
 				const ContentMessages : HTMLElement = document.querySelectorAll(".contentMessages")[0] as HTMLElement
 				ContentMessages.innerHTML = `<div class="message incoming">${messageReceivedEvent.messageContent.Content}</div>` + ContentMessages.innerHTML
@@ -126,6 +137,8 @@ document.addEventListener("messageReceived", (e) => {
 
 				// ContentMessages.innerHTML = `<div class="message incoming">${MessageData.Content.Content}</div>` + ContentMessages.innerHTML
 				
+			} else {
+				ChatItem.classList.add("hasNotification")
 			}
 		}
 		
