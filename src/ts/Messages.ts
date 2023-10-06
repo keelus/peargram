@@ -1,17 +1,30 @@
 import { PaneLoadedEvent, MessageReceivedEvent } from "./Structs.js";
+import { RenderDateShort } from "./Utils.js";
 
-
-
+let LeftBarUpdateInitialized = false;
 
 document.addEventListener("DOMContentLoaded", (e) => {
 	SetupListeners()
+
+	LeftBarUpdate(true)
+	LeftBarUpdateInitialized = true;
 })
 
 document.addEventListener("paneLoaded", (e) => {
 	const paneLoadedEvent : PaneLoadedEvent = e as PaneLoadedEvent;
 
-	if (!(paneLoadedEvent.paneTarget === "messages" && paneLoadedEvent.paneDetail !== ""))
-		return
+	if (paneLoadedEvent.paneTarget !== "messages") {
+		LeftBarUpdateInitialized = false;
+		return;
+	}
+	
+	if(!LeftBarUpdateInitialized) {
+		LeftBarUpdateInitialized = true;
+		LeftBarUpdate(true)
+	}
+
+	if (paneLoadedEvent.paneDetail === "") return;
+
 	SetupListeners()
 })
 
@@ -81,6 +94,9 @@ async function SendMessage(Content : string) {
 			MessageField.parentElement?.classList.remove("disabled")
 			MessageField.focus()
 			ContentMessages.innerHTML = `<div class="message sent">${Content}</div>` + ContentMessagesPreSend
+			
+			LeftBarMessage(TargetUser, Content, false)
+			LeftBarUpdate(false)
 
 		}
 	} else {
@@ -96,11 +112,6 @@ async function SendMessage(Content : string) {
 document.addEventListener("messageReceived", (e) => {
 	const messageReceivedEvent : MessageReceivedEvent = e as MessageReceivedEvent;
 
-	console.log(messageReceivedEvent.messageContent)
-	console.log("✅📨👍⚠️")
-
-
-		
 	let currentURL = window.location.pathname;
 	let urlParts : string[] = currentURL.split("/")
 	urlParts = urlParts.filter((item) => {
@@ -109,42 +120,77 @@ document.addEventListener("messageReceived", (e) => {
 
 	console.log(urlParts)
 	if (urlParts[0] == "messages") {
-		// UPDATE LEFT BAR TODO
-		const ChatItem : HTMLElement = document.querySelector(`.chats > .chat[chat-user='${messageReceivedEvent.messageContent.Actor}']`) as HTMLElement
-		const ChatItemDetails : HTMLElement = ChatItem.querySelector(`.details > .message`) as HTMLElement
-		if(!ChatItemDetails) return;
-
-		const ChatText : HTMLElement = ChatItemDetails.querySelector(".text") as HTMLElement
-		const ChatDate : HTMLElement = ChatItemDetails.querySelector(".date") as HTMLElement
-
-		ChatText.innerHTML = messageReceivedEvent.messageContent.Content;
-		ChatDate.innerHTML = "•  now"
-		
-
-		console.log("LEFT PART!")
 		if(urlParts.length == 2) { // Is in a chat
 			const ChatUsername : string = urlParts[1]
-			// console.log(ChatUsername)
-			// console.log(MessageData.actor)
 			if(messageReceivedEvent.messageContent.Actor == ChatUsername) { // If you are in the oncoming message's chat
-				console.log("Update current chat!!!")
+				LeftBarMessage(messageReceivedEvent.messageContent.Actor, messageReceivedEvent.messageContent.Content, false)
+
 				const ContentMessages : HTMLElement = document.querySelectorAll(".contentMessages")[0] as HTMLElement
 				ContentMessages.innerHTML = `<div class="message incoming">${messageReceivedEvent.messageContent.Content}</div>` + ContentMessages.innerHTML
-
-				
-
-				// const ContentMessages : HTMLElement = document.querySelectorAll(".contentMessages")[0] as HTMLElement
-
-				// ContentMessages.innerHTML = `<div class="message incoming">${MessageData.Content.Content}</div>` + ContentMessages.innerHTML
 				
 			} else {
-				ChatItem.classList.add("hasNotification")
+				LeftBarMessage(messageReceivedEvent.messageContent.Actor, messageReceivedEvent.messageContent.Content, true)
 			}
+		} else {
+			LeftBarMessage(messageReceivedEvent.messageContent.Actor, messageReceivedEvent.messageContent.Content, true)
 		}
-		
+
+		LeftBarUpdate(false);
 	}
 
 
 	let beat = new Audio('/assets/media/audio/message.mp3');
 	beat.play();
 })
+
+
+function LeftBarMessage(Username : string, MessageContentText : string, Received : boolean) {
+	const ChatItem : HTMLElement = document.querySelector(`.chats > .chat[chat-user='${Username}']`) as HTMLElement
+	const ChatItemDetails : HTMLElement = ChatItem.querySelector(`.details > .message`) as HTMLElement
+	if(!ChatItemDetails) return;
+
+	const ChatText : HTMLElement = ChatItemDetails.querySelector(".text") as HTMLElement
+	const ChatDate : HTMLElement = ChatItemDetails.querySelector(".date") as HTMLElement
+
+	ChatText.innerHTML = MessageContentText;
+	ChatDate.innerHTML = "•  now"
+
+	ChatItem.setAttribute("last-message-date", (new Date().getTime()/1000).toString())
+
+	if(Received)
+		ChatItem.classList.add("hasNotification")
+}
+
+function LeftBarUpdate(Repeat : boolean) {
+	const ChatItemsParent = document.querySelector(".chats")
+
+	if(!ChatItemsParent) return;
+
+	const ChatItems : HTMLElement[] = Array.from(ChatItemsParent.querySelectorAll(".chat"), Chat => Chat as HTMLElement)
+
+	const SortedChatItems = ChatItems.sort((ChatItemA, ChatItemB) => {
+		const DateA : number = parseInt(ChatItemA.getAttribute("last-message-date") || "0");
+		const DateB : number = parseInt(ChatItemB.getAttribute("last-message-date") || "0");
+
+		if(DateA > DateB) return -1;
+		if(DateA < DateB) return 1;
+		return 0;
+	})
+
+	ChatItemsParent.innerHTML = "";
+	SortedChatItems.forEach((elem) => {
+		const UnixDateInt : number = parseInt(elem.getAttribute("last-message-date") || "0")
+		
+		const VisualDate : string = RenderDateShort(UnixDateInt)
+
+		const ChatDate : HTMLElement = elem.querySelector(".details > .message > .date") as HTMLElement
+		if(!ChatDate) return;
+
+		ChatDate.innerText = "• " + VisualDate
+		
+		ChatItemsParent.appendChild(elem);
+	})
+
+
+	if(Repeat) setTimeout(() => LeftBarUpdate(true), 1000 * 10); // Update each 10s
+}

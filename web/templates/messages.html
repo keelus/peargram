@@ -10,7 +10,7 @@
 		</div>
 		<div class="chats">
 			{{ range $i, $Chat := .Chats }}
-				<div class="chat disabledhasNotification {{ if eq (index $Chat.Participants 1) (index $.ActiveChat.Participants 1)}}active{{ end }} EmbeddedLoad" target="messages" detail="{{- index $Chat.Participants 1 -}}" chat-user="{{- index $Chat.Participants 1 -}}">
+				<div class="chat disabledhasNotification {{ if eq (index $Chat.Participants 1) (index $.ActiveChat.Participants 1)}}active{{ end }} EmbeddedLoad" target="messages" detail="{{- index $Chat.Participants 1 -}}" chat-user="{{- index $Chat.Participants 1 -}}" last-message-date="{{- lastMessageDate $Chat -}}">
 					<div class="avatar" style="background-image:url(/api/users/getAvatar/{{- index $Chat.Participants 1 -}})"></div>
 					<div class="details">
 						<div class="username">{{ index $Chat.Participants 1 }}</div>
