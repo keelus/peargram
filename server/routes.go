@@ -52,7 +52,7 @@ func SetupRouter() *gin.Engine {
 
 	mainGroup := r.Group("/")
 	{
-		mainGroup.Use(RequireLoggedIn, RequireUsernameSet)
+		mainGroup.Use(RequireAccount)
 		mainGroup.GET("/", paneHandler.IndexPane)
 		mainGroup.GET("/search", paneHandler.SearchPane)
 		mainGroup.GET("/messages", paneHandler.MessagesPane)
@@ -77,11 +77,9 @@ func SetupRouter() *gin.Engine {
 
 	apiGroup := r.Group("/api")
 	{
-		apiGroup.GET("/postPreview/:id", RequireLoggedIn, RequireUsernameSet, posts.GetPostPreview)
-
-		apiGroup.GET("/searchUsers/:username", RequireLoggedIn, RequireUsernameSet, apiHandler.GETSearchUsers)
-
-		apiGroup.GET("toggleFollow/:username", RequireLoggedIn, RequireUsernameSet, apiHandler.GETToggleFollow)
+		apiGroup.GET("/postPreview/:id", APIRequireAccount, posts.GetPostPreview)
+		apiGroup.GET("/searchUsers/:username", APIRequireAccount, apiHandler.GETSearchUsers)
+		apiGroup.GET("toggleFollow/:username", APIRequireAccount, apiHandler.GETToggleFollow)
 
 		apiGroup.POST("signinEndpoint", RequireNotLoggedIn, apiHandler.POSTSigninEndpoint)
 		apiGroup.POST("signupEndpoint", RequireNotLoggedIn, apiHandler.POSTSignupEndpoint)
@@ -91,20 +89,20 @@ func SetupRouter() *gin.Engine {
 
 		apiMessagesGroup := apiGroup.Group("/messages")
 		{
-			apiMessagesGroup.Use(RequireLoggedIn, RequireUsernameSet)
+			apiMessagesGroup.Use(APIRequireAccount)
 			apiMessagesGroup.GET("/getMessages", messagesApi.GETMessages)
-			apiMessagesGroup.POST("/sendMessage", messagesApi.POSTSendMessage) // TODO: POST
+			apiMessagesGroup.POST("/sendMessage", messagesApi.POSTSendMessage)
 		}
 
 		apiNotificationsGroup := apiGroup.Group("/notifications")
 		{
-			apiNotificationsGroup.Use(RequireLoggedIn, RequireUsernameSet)
+			apiMessagesGroup.Use(APIRequireAccount)
 			apiNotificationsGroup.GET("/getNotifications/:username", notificationsApi.GETNotifications)
 		}
 
 		apiUsersGroup := apiGroup.Group("/users")
 		{
-			apiUsersGroup.Use(RequireLoggedIn, RequireUsernameSet)
+			apiMessagesGroup.Use(APIRequireAccount)
 			apiUsersGroup.GET("/getUserDetails")
 			apiUsersGroup.GET("/getAvatar/:username", usersApi.GETAvatar)
 		}
@@ -142,5 +140,28 @@ func RequireNotUsernameSet(c *gin.Context) {
 		c.Abort()
 	} else {
 		c.Next()
+	}
+}
+
+func RequireAccount(c *gin.Context) {
+	usernameSet := users.IsUsernameSet(c)
+	userLoggedIn := users.IsUserLoggedIn(c)
+	if userLoggedIn && usernameSet {
+		c.Next()
+	} else {
+		if !userLoggedIn {
+			c.Redirect(http.StatusFound, "/auth/signin")
+		} else {
+			c.Redirect(http.StatusFound, "/auth/endSignup")
+		}
+		c.Abort()
+	}
+}
+func APIRequireAccount(c *gin.Context) {
+	if users.IsUserLoggedIn(c) && users.IsUsernameSet(c) {
+		c.Next()
+	} else {
+		c.JSON(http.StatusForbidden, gin.H{"error": "You're not logged in!"})
+		c.Abort()
 	}
 }
