@@ -111,6 +111,10 @@ func GetChatPreviews(username string) []models.Chat {
 		chats = append(chats, chat)
 	}
 
+	sort.Slice(chats, func(i, j int) bool {
+		return chats[i].Messages[0].Date > chats[j].Messages[0].Date
+	})
+
 	return chats
 }
 

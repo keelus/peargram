@@ -61,7 +61,6 @@ func MessagesPane(c *gin.Context) {
 
 	selfUsername := session.Get("Username").(string)
 	userChats := messages.GetChatPreviews(selfUsername)
-	fmt.Println(userChats)
 	// firstChatUsername := userChats[0].Participants[1]
 
 	if c.Param("username") != "" {
