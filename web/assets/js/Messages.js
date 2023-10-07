@@ -12,8 +12,10 @@ import { RenderDateShort } from "./Utils.js";
 let LeftBarUpdateInitialized = false;
 document.addEventListener("DOMContentLoaded", (e) => {
     SetupListeners();
-    LeftBarUpdate(true);
-    LeftBarUpdateInitialized = true;
+    if (ACTIVE_PANE == PANE.MESSAGES) {
+        LeftBarUpdate(true);
+        LeftBarUpdateInitialized = true;
+    }
 });
 document.addEventListener("paneLoaded", (e) => {
     const paneLoadedEvent = e;
@@ -119,7 +121,6 @@ function SendMessage(Content) {
     });
 }
 document.addEventListener("messageReceived", (e) => {
-    console.log(ACTIVE_PANE);
     const messageReceivedEvent = e;
     if (ACTIVE_PANE == PANE.MESSAGES) {
         if (ACTIVE_PANE_DETAIL != "") { // Is in a chat
@@ -137,9 +138,9 @@ document.addEventListener("messageReceived", (e) => {
             LeftBarMessage(messageReceivedEvent.messageContent.Actor, messageReceivedEvent.messageContent.Content, true);
         }
         LeftBarUpdate(false);
+        let beat = new Audio('/assets/media/audio/message.mp3');
+        beat.play();
     }
-    let beat = new Audio('/assets/media/audio/message.mp3');
-    beat.play();
 });
 function LeftBarMessage(Username, MessageContentText, Received) {
     const ChatItem = document.querySelector(`.chats > .chat[chat-user='${Username}']`);
@@ -171,7 +172,7 @@ function LeftBarUpdate(Repeat) {
     ChatItemsParent.innerHTML = "";
     SortedChatItems.forEach((elem) => {
         const UnixDateInt = parseInt(elem.getAttribute("last-message-date") || "0");
-        const VisualDate = RenderDateShort(UnixDateInt);
+        const VisualDate = RenderDateShort(UnixDateInt) !== "0s" ? RenderDateShort(UnixDateInt) : "now";
         const ChatDate = elem.querySelector(".details > .message > .date");
         if (!ChatDate)
             return;

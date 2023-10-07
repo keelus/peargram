@@ -104,39 +104,29 @@ function CheckPanel(url) {
 function UpdateActivePane() {
     console.log("Updating pane");
     let paneStr = "";
-    ACTIVE_PANE = -1;
+    ACTIVE_PANE = PANE.UNDEFINED;
     ACTIVE_PANE_DETAIL = "";
     let currentURL = window.location.pathname;
     let urlParts = currentURL.split("/");
     urlParts = urlParts.filter((item) => {
         return item !== "";
     });
-    if (urlParts.length == 0)
-        paneStr = "index";
-    else
-        paneStr = urlParts[0];
-    if (paneStr == "index")
-        return ACTIVE_PANE = PANE.INDEX;
-    if (paneStr == "search")
-        return ACTIVE_PANE = PANE.SEARCH;
-    if (paneStr == "messages") {
-        ACTIVE_PANE = PANE.MESSAGES;
-        return ACTIVE_PANE_DETAIL = urlParts[1];
+    if (urlParts.length > 0) {
+        const paneStr = urlParts[0].toUpperCase();
+        const paneVal = PANE[paneStr];
+        if (paneVal !== undefined) {
+            ACTIVE_PANE = paneVal;
+            ACTIVE_PANE_DETAIL = urlParts[1];
+            if (ACTIVE_PANE == PANE.MESSAGES && urlParts.length > 1)
+                ACTIVE_PANE_DETAIL = urlParts[1];
+        }
     }
-    if (paneStr == "notifications")
-        return ACTIVE_PANE = PANE.NOTIFICATIONS;
-    if (paneStr == "profile")
-        return ACTIVE_PANE = PANE.PROFILE;
-    if (paneStr == "settings")
-        return ACTIVE_PANE = PANE.SETTINGS;
-    if (paneStr == "activity")
-        return ACTIVE_PANE = PANE.ACTIVITY;
-    if (paneStr == "saved")
-        return ACTIVE_PANE = PANE.SAVED;
-    return ACTIVE_PANE = PANE.UNDEFINED;
+    else {
+        ACTIVE_PANE = PANE.INDEX;
+    }
 }
 function print() {
     console.log(ACTIVE_PANE);
     setTimeout(print, 500);
 }
-document.addEventListener("DOMContentLoaded", () => { UpdateActivePane(); });
+document.addEventListener("DOMContentLoaded", () => { UpdateActivePane(), print(); });

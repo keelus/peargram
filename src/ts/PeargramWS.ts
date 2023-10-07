@@ -15,12 +15,7 @@ SessionWS.onmessage = e => {
 		const messageReceivedEvent = new MessageReceivedEvent(MessageData.Content)
 		document.dispatchEvent(messageReceivedEvent)
 
-		// Check current user panel
-
 		// TODO: Show a notification icon on messages?
-
-
-
 	} else if (MessageData.type == "NOTIFICATION") {
 		console.log("🔔 notification received.")
 	}
