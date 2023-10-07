@@ -259,7 +259,6 @@ func POSTEndSignup(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(userAvatar)
 
 	if pendingSignupExists { // TODO: Handle if exists on error side. Log in? Clear session? Apply session?
 		c.JSON(http.StatusInternalServerError, gin.H{"errorID": ERROR_UNEXPECTED})
