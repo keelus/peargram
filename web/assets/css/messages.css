@@ -362,23 +362,27 @@ body > .content {
   border-radius: 50px 50px 50px 7.5px;
 }
 .content.messages > .main > .contentMessages > .loadMore {
+  text-align: center;
   display: none;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
   color: #CED74D;
   font-weight: 500;
+  background: none;
+  border: none;
+  font-size: 14px;
 }
 .content.messages > .main > .contentMessages > .loadMore > i {
   color: white;
   font-size: 30px;
 }
-.content.messages > .main > .contentMessages > .loadMore:hover {
+.content.messages > .main > .contentMessages > .loadMore:not(:disabled):hover {
   cursor: pointer;
   color: white;
 }
 .content.messages > .main > .contentMessages > .loadMore.show {
-  display: flex;
+  display: block;
+}
+.content.messages > .main > .contentMessages > .loadMore:disabled {
+  opacity: 0.6;
 }
 .content.messages > .main > .bottom {
   width: 100%;

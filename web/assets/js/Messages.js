@@ -190,14 +190,18 @@ function LoadMoreMessages() {
         const ChatMessages = Array.from(ChatMessagesParent.querySelectorAll(".message:not(.sending):not(.error)"), Message => Message);
         const OffsetMessages = ChatMessages.length;
         const TargetUser = GetChatUser();
+        const LoadMore = document.getElementById("LoadMore");
+        if (!LoadMore)
+            return;
+        LoadMore.disabled = true;
         let response = yield fetch(`/api/messages/getMessages?username=${TargetUser}&offset=${OffsetMessages}`);
         let result;
         if (response.ok) {
             result = yield response.json();
             if (response.status == 200) {
+                LoadMore.disabled = false;
                 const StartMessage = document.querySelector(".start");
-                const LoadMore = document.getElementById("LoadMore");
-                if (!LoadMore || !StartMessage)
+                if (!StartMessage)
                     return;
                 if (result.Messages.length == 0)
                     return;

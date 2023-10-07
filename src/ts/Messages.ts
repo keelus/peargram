@@ -226,15 +226,19 @@ async function LoadMoreMessages() {
 	const OffsetMessages = ChatMessages.length
 
 	const TargetUser = GetChatUser()
+	
+	const LoadMore : HTMLButtonElement = document.getElementById("LoadMore") as HTMLButtonElement
+	if(!LoadMore) return;
+	LoadMore.disabled = true
 
 	let response : Response = await fetch(`/api/messages/getMessages?username=${TargetUser}&offset=${OffsetMessages}`);
 	let result;
 	if( response.ok ) {
 		result = await response.json()
 		if( response.status == 200) {
+			LoadMore.disabled = false
 			const StartMessage = document.querySelector(".start")
-			const LoadMore = document.getElementById("LoadMore")
-			if(!LoadMore || !StartMessage) return;
+			if(!StartMessage) return;
 
 			if(result.Messages.length == 0) return;
 		

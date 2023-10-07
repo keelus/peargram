@@ -47,7 +47,7 @@
 						<div class="message sent">{{- $Message.Content -}}</div>
 					{{ end }}
 				{{ end }}
-				<a class="loadMore show" id="LoadMore">Load more messages</a>
+				<button class="loadMore show" id="LoadMore">Load more messages</button>
 				<div class="start">
 					<div class="avatar EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}" style="background-image: url(/api/users/getAvatar/{{- index .ActiveChat.Participants 1 -}});"></div>
 					<div class="username EmbeddedLoad" target="profile" detail="{{- index .ActiveChat.Participants 1 -}}">{{- index .ActiveChat.Participants 1 -}}</div>
