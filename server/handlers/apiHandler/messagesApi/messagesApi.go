@@ -18,17 +18,15 @@ func GETMessages(c *gin.Context) {
 	offsetStr := c.Query("offset")
 
 	if username == "" || offsetStr == "" {
-		fmt.Println("Parameter missing!")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "A parameter is missing."})
+		return
 	}
 
 	offsetInt, err := strconv.Atoi(offsetStr)
 	if err != nil {
-		fmt.Println("Unexpected offset type")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Unexpected offset type"})
+		return
 	}
-
-	fmt.Println(username)
-	fmt.Println(offsetInt)
-	fmt.Println(uint(offsetInt))
 
 	chat := messages.GetChat(currentUsername, username, uint(offsetInt))
 
