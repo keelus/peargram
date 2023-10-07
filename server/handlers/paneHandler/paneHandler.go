@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"peargram/bookmarks"
 	"peargram/follows"
+	"peargram/likes"
 	"peargram/messages"
 	"peargram/models"
 	"peargram/notifications"
@@ -232,27 +234,42 @@ func SettingsPane(c *gin.Context) {
 		})
 	}
 }
+
 func ActivityPane(c *gin.Context) {
+	session := sessions.Default(c)
+	currentUsername := session.Get("Username").(string)
+
+	likedPosts := likes.GetLikes(currentUsername)
+
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "activity", gin.H{
-			"User": CurrentUserData(c),
+			"User":       CurrentUserData(c),
+			"LikedPosts": likedPosts,
 		})
 	} else {
 		c.HTML(http.StatusOK, "base", gin.H{
-			"LoadPane": "activity",
-			"User":     CurrentUserData(c),
+			"LoadPane":   "activity",
+			"User":       CurrentUserData(c),
+			"LikedPosts": likedPosts,
 		})
 	}
 }
 func SavedPane(c *gin.Context) {
+	session := sessions.Default(c)
+	currentUsername := session.Get("Username").(string)
+
+	savedPosts := bookmarks.GetBookmarks(currentUsername)
+
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "saved", gin.H{
-			"User": CurrentUserData(c),
+			"User":       CurrentUserData(c),
+			"SavedPosts": savedPosts,
 		})
 	} else {
 		c.HTML(http.StatusOK, "base", gin.H{
-			"LoadPane": "saved",
-			"User":     CurrentUserData(c),
+			"LoadPane":   "saved",
+			"User":       CurrentUserData(c),
+			"SavedPosts": savedPosts,
 		})
 	}
 }

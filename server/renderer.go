@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"html/template"
 	"math"
+	"peargram/bookmarks"
+	"peargram/likes"
 	"peargram/models"
 	"strings"
 	"time"
@@ -18,6 +20,12 @@ func Renderer() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
 
 	funcs := template.FuncMap{
+		"hasLiked": func(username string, postID int) bool {
+			return likes.HasLiked(username, postID)
+		},
+		"hasBookmarked": func(username string, postID int) bool {
+			return bookmarks.HasBookmarked(username, postID)
+		},
 		"isLastPost": func(post models.Post, posts []models.Post) bool {
 			if posts[len(posts)-1] == post {
 				return true

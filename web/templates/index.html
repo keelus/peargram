@@ -22,7 +22,7 @@
 					<div class="bottom">
 						<div class="actions">
 							<div class="button">
-								<i class="ti ti-heart"></i>
+								<i class="ti ti-heart{{- if hasLiked $.User.Username $Post.ID -}}-filled{{- end -}}"></i>
 							</div>
 							<div class="button">
 								<i class="ti ti-message-circle-2"></i>
@@ -31,7 +31,7 @@
 								<i class="ti ti-send"></i>
 							</div>
 							<div class="button">
-								<i class="ti ti-bookmark"></i>
+								<i class="ti ti-bookmark{{- if hasBookmarked $.User.Username $Post.ID -}}-filled{{- end -}}"></i>
 							</div>
 						</div>
 						<div class="likes EmbeddedLoad" target="post" detail="{{ $Post.ID }}">{{ $Post.Likes }} likes</div>
