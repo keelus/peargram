@@ -239,7 +239,7 @@ func ActivityPane(c *gin.Context) {
 	session := sessions.Default(c)
 	currentUsername := session.Get("Username").(string)
 
-	likedPosts := likes.GetLikes(currentUsername)
+	likedPosts := likes.GetLikedPosts(currentUsername)
 
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "activity", gin.H{
@@ -258,7 +258,7 @@ func SavedPane(c *gin.Context) {
 	session := sessions.Default(c)
 	currentUsername := session.Get("Username").(string)
 
-	savedPosts := bookmarks.GetBookmarks(currentUsername)
+	savedPosts := bookmarks.GetBookmarkedPosts(currentUsername)
 
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "saved", gin.H{

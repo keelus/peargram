@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"peargram/database"
 	"peargram/models"
+	"peargram/users"
+	"time"
 )
 
-func GetBookmarks(username string) []models.Post {
+func GetBookmarkedPosts(username string) []models.Post {
 	var bookmarkedPosts []models.Post
 
 	DB := database.ConnectDB()
@@ -27,4 +29,27 @@ func HasBookmarked(username string, postID int) bool {
 	}
 
 	return hasBookmarked
+}
+
+func ToggleBookmark(username string, postID int) error { // TODO: Check if user exists
+	if !users.UserExists(username) {
+		return fmt.Errorf("User does not exist")
+	}
+
+	DB := database.ConnectDB()
+
+	if HasBookmarked(username, postID) {
+		_, err := DB.Exec("DELETE FROM bookmarks WHERE actor=? AND postID=?", username, postID)
+		if err != nil {
+			return err
+		}
+	} else {
+		date := time.Now().Unix()
+		_, err := DB.Exec("INSERT INTO bookmarks (actor, postID, date) VALUES(?, ?, ?)", username, postID, date)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

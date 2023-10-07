@@ -6,6 +6,7 @@ import (
 	"peargram/server/handlers/apiHandler"
 	"peargram/server/handlers/apiHandler/messagesApi"
 	"peargram/server/handlers/apiHandler/notificationsApi"
+	"peargram/server/handlers/apiHandler/postsApi"
 	"peargram/server/handlers/apiHandler/usersApi"
 	"peargram/server/handlers/paneHandler"
 	"peargram/server/websocketing/handler"
@@ -96,15 +97,22 @@ func SetupRouter() *gin.Engine {
 
 		apiNotificationsGroup := apiGroup.Group("/notifications")
 		{
-			apiMessagesGroup.Use(APIRequireAccount)
+			apiNotificationsGroup.Use(APIRequireAccount)
 			apiNotificationsGroup.GET("/getNotifications/:username", notificationsApi.GETNotifications)
 		}
 
 		apiUsersGroup := apiGroup.Group("/users")
 		{
-			apiMessagesGroup.Use(APIRequireAccount)
+			apiUsersGroup.Use(APIRequireAccount)
 			apiUsersGroup.GET("/getUserDetails")
 			apiUsersGroup.GET("/getAvatar/:username", usersApi.GETAvatar)
+		}
+
+		apiLikesGroup := apiGroup.Group("/posts")
+		{
+			apiLikesGroup.Use(APIRequireAccount)
+			apiLikesGroup.GET("/toggleLike", postsApi.GETToggleLike)
+			apiLikesGroup.GET("/toggleBookmark", postsApi.GetToggleBookmark)
 		}
 	}
 	return r
