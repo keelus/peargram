@@ -50,8 +50,9 @@ type Message struct {
 }
 
 type Chat struct {
-	Participants [2]string // Participants[0] = First user/current logged user
-	Messages     []Message
+	Participants      [2]string // Participants[0] = First user/current logged user
+	Messages          []Message
+	MessageTotalCount uint
 }
 
 const (

@@ -51,17 +51,32 @@ func SendMessage(actor string, target string, content string) error {
 
 }
 
-func GetChat(username1 string, username2 string) models.Chat {
-	var messages []models.Message
+func GetChatMessageCount(username1 string, username2 string) uint {
+	var messageCount int
 
 	DB := database.ConnectDB()
-	err := DB.Select(&messages, "SELECT * FROM messages WHERE (target=? OR actor=?) AND (target=? OR actor=?) ORDER BY date DESC;", username1, username1, username2, username2)
+	err := DB.QueryRow("SELECT COUNT(*) FROM messages WHERE (target=? OR actor=?) AND (target=? OR actor=?);", username1, username1, username2, username2).Scan(&messageCount)
+	if err != nil {
+		fmt.Println(err)
+		return 0
+	}
+
+	return uint(messageCount)
+}
+
+func GetChat(username1 string, username2 string, offset uint) models.Chat {
+	var messages []models.Message
+	messages = make([]models.Message, 0)
+
+	DB := database.ConnectDB()
+	err := DB.Select(&messages, "SELECT * FROM messages WHERE (target=? OR actor=?) AND (target=? OR actor=?) ORDER BY date DESC, id DESC LIMIT 30 OFFSET ?;", username1, username1, username2, username2, offset)
 	if err != nil {
 		fmt.Println(err)
 		return models.Chat{}
 	}
 
-	chat := models.Chat{Participants: [2]string{username1, username2}, Messages: messages}
+	messageCount := GetChatMessageCount(username1, username2)
+	chat := models.Chat{Participants: [2]string{username1, username2}, Messages: messages, MessageTotalCount: messageCount}
 	return chat
 }
 
@@ -78,7 +93,7 @@ func GetChats(username string) []models.Chat {
 	// Now we get the chats
 
 	for _, user := range interactedWith {
-		chat := GetChat(username, user)
+		chat := GetChat(username, user, 0)
 		chats = append(chats, chat)
 	}
 

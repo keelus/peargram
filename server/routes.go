@@ -92,7 +92,7 @@ func SetupRouter() *gin.Engine {
 		apiMessagesGroup := apiGroup.Group("/messages")
 		{
 			apiMessagesGroup.Use(RequireLoggedIn, RequireUsernameSet)
-			apiMessagesGroup.GET("/getMessages/:username", messagesApi.GETMessages)
+			apiMessagesGroup.GET("/getMessages", messagesApi.GETMessages)
 			apiMessagesGroup.POST("/sendMessage", messagesApi.POSTSendMessage) // TODO: POST
 		}
 

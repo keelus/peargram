@@ -34,6 +34,8 @@ function SetupListeners(){
 	if(!MessageField) return
 	const MediaButton : HTMLElement = document.querySelectorAll(".content.messages #MediaButton")[0] as HTMLButtonElement
 	const SendButton : HTMLElement = document.querySelectorAll(".content.messages #SendButton")[0] as HTMLButtonElement
+	
+	const LoadMoreButton : HTMLElement = document.getElementById("LoadMore") as HTMLElement
 
 	["keyup", "keydown", "value", "focus"].forEach((listener, i) => {
 		MessageField.addEventListener(listener, (e) => {
@@ -62,11 +64,24 @@ function SetupListeners(){
 		SendMessage(MessageContent);
 	})
 
+	document.addEventListener("click", (e) => {
+		const ElementTarget = e.target as HTMLElement
+		if(!ElementTarget) return;
+
+		const LoadMoreButton = ElementTarget.closest(".loadMore")
+		if(!LoadMoreButton) return;
+
+		
+		LoadMoreMessages()
+	})
+	// LoadMoreButton.addEventListener("click", () => {
+	// 	LoadMoreMessages()
+	// })
 }
 
 async function SendMessage(Content : string) {
 	
-	const TargetUser : string = window.location.href.split("/messages/")[1]
+	const TargetUser : string = GetChatUser()
 	
 	const ContentMessages = document.querySelectorAll(".contentMessages")[0]
 	const ContentMessagesPreSend = ContentMessages.innerHTML
@@ -193,4 +208,72 @@ function LeftBarUpdate(Repeat : boolean) {
 
 
 	if(Repeat) setTimeout(() => LeftBarUpdate(true), 1000 * 10); // Update each 10s
+}
+
+type Message = {
+	ID:        number;
+	Actor:     string;
+	Target:    string;
+	Content:   string;
+	Reactions: string;
+	Date:      number;
+}
+
+async function LoadMoreMessages() {
+	const ChatMessagesParent = document.querySelector(".contentMessages")
+
+	if(!ChatMessagesParent) return;
+
+	const ChatMessages : HTMLElement[] = Array.from(ChatMessagesParent.querySelectorAll(".message:not(.sending):not(.error)"), Message => Message as HTMLElement)
+
+	const OffsetMessages = ChatMessages.length
+
+	const TargetUser = GetChatUser()
+
+	let response : Response = await fetch(`/api/messages/getMessages?username=${TargetUser}&offset=${OffsetMessages}`);
+	let result;
+	if( response.ok ) {
+		result = await response.json()
+		if( response.status == 200) {
+			const StartMessage = document.querySelector(".start")
+			const LoadMore = document.getElementById("LoadMore")
+			if(!LoadMore || !StartMessage) return;
+
+			if(result.Messages.length == 0) return;
+		
+			
+			
+			const pending = result.MessageTotalCount - OffsetMessages - result.Messages.length
+
+			if(pending == 0) {
+				StartMessage.classList.add("show")
+				LoadMore.classList.remove("show")
+			}
+			const ContentMessages = document.querySelectorAll(".contentMessages")[0]
+
+			ContentMessages.removeChild(StartMessage)
+			ContentMessages.removeChild(LoadMore)
+			result.Messages.forEach((message : Message) => {
+				const NewMessageElement = document.createElement('div')
+				
+				NewMessageElement.classList.add("message")
+				NewMessageElement.classList.add(message.Actor == TargetUser ? "incoming" : "sent")
+				NewMessageElement.innerText = `${message.Content}`;
+
+				ContentMessages.appendChild(NewMessageElement)
+			})
+			ContentMessages.appendChild(LoadMore)
+			ContentMessages.appendChild(StartMessage)
+		}
+	} else {
+		const ContentMessages = document.querySelectorAll(".contentMessages")[0]
+		ContentMessages.innerHTML = ContentMessages.innerHTML + "<div class='errorMessage'>Error loading more messages. Try again later.</div>"
+		const LoadMore = document.getElementById("LoadMore")
+		LoadMore?.remove()
+		console.log("Error loading more messages.");
+	}
+}
+
+function GetChatUser() : string {
+	return window.location.href.split("/messages/")[1]
 }

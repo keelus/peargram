@@ -219,14 +219,22 @@ body > .content {
   overflow: hidden;
   overflow-y: scroll;
 }
+.content.messages > .main > .contentMessages > .errorMessage {
+  color: #F61C2C;
+  font-weight: 500;
+  text-align: center;
+}
 .content.messages > .main > .contentMessages > .start {
   margin-bottom: auto;
   padding: 20px 0;
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
+  display: none;
+}
+.content.messages > .main > .contentMessages > .start.show {
+  display: flex;
 }
 .content.messages > .main > .contentMessages > .start > .avatar {
   width: 96px;
@@ -256,6 +264,12 @@ body > .content {
 .content.messages > .main > .contentMessages > .start > .button:hover {
   cursor: pointer;
   background: #262626;
+}
+.content.messages > .main > .contentMessages > .start > .beginningMessage {
+  font-size: 12px;
+  color: rgb(168, 168, 168);
+  font-style: italic;
+  opacity: 0.8;
 }
 .content.messages > .main > .contentMessages > .message {
   background: #262626;
@@ -346,6 +360,25 @@ body > .content {
 .content.messages > .main > .contentMessages > .message.incoming {
   margin-left: 0;
   border-radius: 50px 50px 50px 7.5px;
+}
+.content.messages > .main > .contentMessages > .loadMore {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: #CED74D;
+  font-weight: 500;
+}
+.content.messages > .main > .contentMessages > .loadMore > i {
+  color: white;
+  font-size: 30px;
+}
+.content.messages > .main > .contentMessages > .loadMore:hover {
+  cursor: pointer;
+  color: white;
+}
+.content.messages > .main > .contentMessages > .loadMore.show {
+  display: flex;
 }
 .content.messages > .main > .bottom {
   width: 100%;
@@ -439,5 +472,3 @@ body > .content {
     padding: 16px 10px;
   }
 }
-
-/*# sourceMappingURL=messages.css.map */
