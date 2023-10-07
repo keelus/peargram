@@ -40,8 +40,8 @@ function SetupListeners(){
 	["keyup", "keydown", "value", "focus"].forEach((listener, i) => {
 		MessageField.addEventListener(listener, (e) => {
 			const MessageContent : string = MessageField.value
-			console.log(MessageContent)
-			if(MessageContent.length > 0) {
+
+			if(MessageContent.replace(/\s/g, "").length > 0) {
 				SendButton.classList.add("show")
 				MediaButton.classList.remove("show")
 			} else {
@@ -80,7 +80,8 @@ function SetupListeners(){
 }
 
 async function SendMessage(Content : string) {
-	
+	if(Content.replace(/\s/g, "") == "") return;
+
 	const TargetUser : string = GetChatUser()
 	
 	const ContentMessages = document.querySelectorAll(".contentMessages")[0]
