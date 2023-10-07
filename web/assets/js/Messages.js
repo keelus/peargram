@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { ACTIVE_PANE, ACTIVE_PANE_DETAIL, PANE } from "./EmbedHandler.js";
 import { RenderDateShort } from "./Utils.js";
 let LeftBarUpdateInitialized = false;
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -118,16 +119,11 @@ function SendMessage(Content) {
     });
 }
 document.addEventListener("messageReceived", (e) => {
+    console.log(ACTIVE_PANE);
     const messageReceivedEvent = e;
-    let currentURL = window.location.pathname;
-    let urlParts = currentURL.split("/");
-    urlParts = urlParts.filter((item) => {
-        return item !== "";
-    });
-    console.log(urlParts);
-    if (urlParts[0] == "messages") {
-        if (urlParts.length == 2) { // Is in a chat
-            const ChatUsername = urlParts[1];
+    if (ACTIVE_PANE == PANE.MESSAGES) {
+        if (ACTIVE_PANE_DETAIL != "") { // Is in a chat
+            const ChatUsername = ACTIVE_PANE_DETAIL;
             if (messageReceivedEvent.messageContent.Actor == ChatUsername) { // If you are in the oncoming message's chat
                 LeftBarMessage(messageReceivedEvent.messageContent.Actor, messageReceivedEvent.messageContent.Content, false);
                 const ContentMessages = document.querySelectorAll(".contentMessages")[0];
@@ -233,5 +229,5 @@ function LoadMoreMessages() {
     });
 }
 function GetChatUser() {
-    return window.location.href.split("/messages/")[1];
+    return ACTIVE_PANE_DETAIL;
 }

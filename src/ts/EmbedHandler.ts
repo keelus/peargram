@@ -1,9 +1,24 @@
 import { PaneLoadedEvent } from "./Structs.js"
 
+export let ACTIVE_PANE = -1;
+export let ACTIVE_PANE_DETAIL = "";
+
 const MOUSE_CLICK = {
 	LEFT: 0,
 	MIDDLE: 1,
 	RIGHT: 2
+}
+
+export const PANE = {
+	UNDEFINED:-1,
+	INDEX:0,
+	SEARCH:1,
+	MESSAGES:2,
+	NOTIFICATIONS:3,
+	PROFILE:4,
+	SETTINGS:5,
+	ACTIVITY:6,
+	SAVED:7,
 }
 
 document.addEventListener("mousedown", (e) => { 
@@ -32,6 +47,7 @@ document.addEventListener("mouseup", (e) => {
 
 async function LoadEmbedded(target: string, detail: string, event: MouseEvent, pushToHistory: boolean) {
 	let backupTarget = target
+	
 	if(target === "index")
 		target=""
 
@@ -65,6 +81,7 @@ async function LoadEmbedded(target: string, detail: string, event: MouseEvent, p
 		if(pushToHistory)
 			window.history.pushState("/" + (target || ""), "/" + (target || ""), "/" + target)
 
+		UpdateActivePane()
 	}
 
 	if (event.button === MOUSE_CLICK.LEFT && event.ctrlKey || event.button === MOUSE_CLICK.MIDDLE)
@@ -87,8 +104,6 @@ function CheckPanel(url : string) {
 		return item !== ""
 	})
 
-	console.log(urlParts)
-
 	const clickEvent = new MouseEvent("mousedown")
 
 	if(urlParts.length === 0) 
@@ -99,3 +114,40 @@ function CheckPanel(url : string) {
 		LoadEmbedded(urlParts[0], urlParts[1], clickEvent, false)
 	}
 }
+
+function UpdateActivePane() {
+	console.log("Updating pane")
+	let paneStr = ""
+	ACTIVE_PANE = -1;
+	ACTIVE_PANE_DETAIL = "";
+
+	let currentURL = window.location.pathname;
+	let urlParts : string[] = currentURL.split("/")
+	urlParts = urlParts.filter((item) => {
+		return item !== ""
+	})
+
+	if(urlParts.length == 0)
+		paneStr = "index"
+	else 
+		paneStr = urlParts[0]
+
+	if(paneStr == "index") return ACTIVE_PANE = PANE.INDEX
+	if(paneStr == "search") return ACTIVE_PANE = PANE.SEARCH
+	if(paneStr == "messages") {
+		ACTIVE_PANE = PANE.MESSAGES
+		return ACTIVE_PANE_DETAIL = urlParts[1]
+	}
+	if(paneStr == "notifications") return ACTIVE_PANE = PANE.NOTIFICATIONS
+	if(paneStr == "profile") return ACTIVE_PANE = PANE.PROFILE
+	if(paneStr == "settings") return ACTIVE_PANE = PANE.SETTINGS
+	if(paneStr == "activity") return ACTIVE_PANE = PANE.ACTIVITY
+	if(paneStr == "saved") return ACTIVE_PANE = PANE.SAVED
+	return ACTIVE_PANE = PANE.UNDEFINED
+
+}
+function print(){
+	console.log(ACTIVE_PANE)
+	setTimeout(print, 500);
+}
+document.addEventListener("DOMContentLoaded", () => {UpdateActivePane()})

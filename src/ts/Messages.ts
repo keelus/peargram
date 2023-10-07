@@ -1,3 +1,4 @@
+import { ACTIVE_PANE, ACTIVE_PANE_DETAIL, PANE } from "./EmbedHandler.js";
 import { PaneLoadedEvent, MessageReceivedEvent } from "./Structs.js";
 import { RenderDateShort } from "./Utils.js";
 
@@ -126,18 +127,12 @@ async function SendMessage(Content : string) {
 
 
 document.addEventListener("messageReceived", (e) => {
+	console.log(ACTIVE_PANE)
 	const messageReceivedEvent : MessageReceivedEvent = e as MessageReceivedEvent;
 
-	let currentURL = window.location.pathname;
-	let urlParts : string[] = currentURL.split("/")
-	urlParts = urlParts.filter((item) => {
-		return item !== ""
-	})
-
-	console.log(urlParts)
-	if (urlParts[0] == "messages") {
-		if(urlParts.length == 2) { // Is in a chat
-			const ChatUsername : string = urlParts[1]
+	if(ACTIVE_PANE == PANE.MESSAGES) {
+		if(ACTIVE_PANE_DETAIL != "") { // Is in a chat
+			const ChatUsername : string = ACTIVE_PANE_DETAIL
 			if(messageReceivedEvent.messageContent.Actor == ChatUsername) { // If you are in the oncoming message's chat
 				LeftBarMessage(messageReceivedEvent.messageContent.Actor, messageReceivedEvent.messageContent.Content, false)
 
@@ -276,5 +271,5 @@ async function LoadMoreMessages() {
 }
 
 function GetChatUser() : string {
-	return window.location.href.split("/messages/")[1]
+	return ACTIVE_PANE_DETAIL
 }
