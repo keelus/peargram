@@ -64,6 +64,20 @@ func GetChatMessageCount(username1 string, username2 string) uint {
 	return uint(messageCount)
 }
 
+func GetChatPreview(username1 string, username2 string) models.Chat {
+	var lastMessage models.Message
+
+	DB := database.ConnectDB()
+	err := DB.QueryRowx("SELECT * FROM messages WHERE (target=? OR actor=?) AND (target=? OR actor=?) ORDER BY date DESC, id DESC LIMIT 1", username1, username1, username2, username2).StructScan(&lastMessage)
+	if err != nil {
+		fmt.Println(err)
+		return models.Chat{}
+	}
+
+	chat := models.Chat{Participants: [2]string{username1, username2}, Messages: []models.Message{lastMessage}}
+	return chat
+}
+
 func GetChat(username1 string, username2 string, offset uint) models.Chat {
 	var messages []models.Message
 	messages = make([]models.Message, 0)
@@ -78,6 +92,26 @@ func GetChat(username1 string, username2 string, offset uint) models.Chat {
 	messageCount := GetChatMessageCount(username1, username2)
 	chat := models.Chat{Participants: [2]string{username1, username2}, Messages: messages, MessageTotalCount: messageCount}
 	return chat
+}
+
+func GetChatPreviews(username string) []models.Chat {
+	var interactedWith []string
+	var chats []models.Chat
+
+	DB := database.ConnectDB()
+	err := DB.Select(&interactedWith, "SELECT target as withUsers FROM messages WHERE actor=? UNION SELECT actor as withUsers FROM messages WHERE target=?", username, username)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	// Now we get the chats
+
+	for _, user := range interactedWith {
+		chat := GetChatPreview(username, user)
+		chats = append(chats, chat)
+	}
+
+	return chats
 }
 
 func GetChats(username string) []models.Chat {

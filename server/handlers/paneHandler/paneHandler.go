@@ -59,13 +59,15 @@ func MessagesPane(c *gin.Context) {
 
 	noneSelected := true
 
-	userChats := messages.GetChats(session.Get("Username").(string))
+	selfUsername := session.Get("Username").(string)
+	userChats := messages.GetChatPreviews(selfUsername)
+	fmt.Println(userChats)
 	// firstChatUsername := userChats[0].Participants[1]
 
 	if c.Param("username") != "" {
 		for _, userChat := range userChats {
 			if userChat.Participants[1] == c.Param("username") {
-				activeChat = userChat
+				activeChat = messages.GetChat(selfUsername, c.Param("username"), 0)
 				noneSelected = false
 			}
 		}
