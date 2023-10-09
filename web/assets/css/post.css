@@ -150,7 +150,6 @@ body > .content.post > .main > .post > .bottom > .comments {
   border-top: 1px solid #363636;
 }
 body > .content.post > .main > .post > .bottom > .comments > .commentBlock {
-  display: none !important;
   width: 100%;
 }
 body > .content.post > .main > .post > .bottom > .comments > .commentBlock > .comment, body > .content.post > .main > .post > .bottom > .comments > .commentBlock > .replies > .comment {

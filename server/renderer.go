@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"html/template"
 	"math"
-	"peargram/bookmarks"
-	"peargram/likes"
 	"peargram/models"
+	"peargram/posts"
 	"strings"
 	"time"
 
@@ -20,14 +19,34 @@ func Renderer() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
 
 	funcs := template.FuncMap{
+		"renderCommentBlock": func(comments []models.Comment) []models.CommentBlock {
+			var commentBlocks []models.CommentBlock
+
+			for _, comment := range comments {
+				if comment.ParentID == -1 { // New block
+					newBlock := models.CommentBlock{ParentComment: comment, ChildrenComments: []models.Comment{}}
+					commentBlocks = append(commentBlocks, newBlock)
+					continue
+				}
+				// Is a children
+				for i := 0; i < len(commentBlocks); i++ {
+					if commentBlocks[i].ParentComment.ID == comment.ParentID {
+						commentBlocks[i].ChildrenComments = append(commentBlocks[i].ChildrenComments, comment)
+					}
+				}
+
+			}
+
+			return commentBlocks
+		},
 		"hasLiked": func(username string, postID int) bool {
-			return likes.HasLiked(username, postID)
+			return posts.HasLiked(username, postID)
 		},
 		"hasBookmarked": func(username string, postID int) bool {
-			return bookmarks.HasBookmarked(username, postID)
+			return posts.HasBookmarked(username, postID)
 		},
 		"isLastPost": func(post models.Post, posts []models.Post) bool {
-			if posts[len(posts)-1] == post {
+			if posts[len(posts)-1].ID == post.ID {
 				return true
 			}
 			return false

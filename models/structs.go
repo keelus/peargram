@@ -22,13 +22,28 @@ type UserDetails struct {
 }
 
 type Post struct {
-	ID          int    `db:"id"`
-	Username    string `db:"username"`
-	Content     string `db:"content"`
-	Likes       int    `db:"likes"`
-	Comments    int    `db:"comments"`
-	Date        int    `db:"date"`
-	UserDetails UserDetails
+	ID            int    `db:"id"`
+	Username      string `db:"username"`
+	Content       string `db:"content"`
+	Likes         uint
+	Comments      []Comment
+	CommentAmount uint
+	Date          int `db:"date"`
+	UserDetails   UserDetails
+}
+
+type Comment struct {
+	ID       int    `db:"id"`
+	ParentID int    `db:"parentID"`
+	PostID   int    `db:"postID"`
+	Actor    string `db:"actor"`
+	Content  string `db:"content"`
+	Date     int    `db:"date"`
+}
+
+type CommentBlock struct {
+	ParentComment    Comment
+	ChildrenComments []Comment
 }
 
 type Notification struct {

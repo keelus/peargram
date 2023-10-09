@@ -49,7 +49,7 @@ func GetUserDetails(username string) (models.UserDetails, bool) {
 		return userDetails, false
 	}
 
-	userDetails.PostAmount = posts.GetPostAmount(username)
+	userDetails.PostAmount = posts.GetUserPostAmount(username)
 	userDetails.FollowerAmount = follows.GetFollowerAmount(username)
 	userDetails.FollowingAmount = follows.GetFollowingAmount(username)
 

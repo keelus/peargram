@@ -65,7 +65,7 @@
 						<div class="post {{ if isEmpty $Post.Content }}empty{{ else }} EmbeddedLoad {{ end }}" target="post" detail="{{ $Post.ID }}">
 							<div class="stats">
 								<div class="likes"><i class="ti ti-heart-filled"></i>{{ $Post.Likes }}</div>
-								<div class="comments"><i class="ti ti-message-circle-2-filled"></i>{{ $Post.Comments }}</div>
+								<div class="comments"><i class="ti ti-message-circle-2-filled"></i>{{ $Post.CommentAmount }}</div>
 							</div>
 							<img src="data:image/png;base64,{{ renderImage $Post.Content }}"/>
 						</div>

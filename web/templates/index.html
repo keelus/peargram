@@ -21,21 +21,21 @@
 					</div>
 					<div class="bottom">
 						<div class="actions">
-							<div class="button">
+							<div class="button likeButton" post-id="{{- $Post.ID -}}">
 								<i class="ti ti-heart{{- if hasLiked $.User.Username $Post.ID -}}-filled{{- end -}}"></i>
 							</div>
-							<div class="button">
+							<div class="button EmbeddedLoad" target="post" detail="{{ $Post.ID }}">
 								<i class="ti ti-message-circle-2"></i>
 							</div>
-							<div class="button">
+							<div class="button" style="opacity:.6;">
 								<i class="ti ti-send"></i>
 							</div>
-							<div class="button">
+							<div class="button bookmarkButton" post-id="{{- $Post.ID -}}">
 								<i class="ti ti-bookmark{{- if hasBookmarked $.User.Username $Post.ID -}}-filled{{- end -}}"></i>
 							</div>
 						</div>
 						<div class="likes EmbeddedLoad" target="post" detail="{{ $Post.ID }}">{{ $Post.Likes }} likes</div>
-						<div class="comments EmbeddedLoad" target="post" detail="{{ $Post.ID }}">View all {{ $Post.Comments }} comments</div>
+						<div class="comments EmbeddedLoad" target="post" detail="{{ $Post.ID }}">View all {{ $Post.CommentAmount }} comments</div>
 					</div>
 				</div>
 				<div class="hDivider"></div>

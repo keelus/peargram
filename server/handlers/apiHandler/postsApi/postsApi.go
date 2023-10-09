@@ -2,8 +2,7 @@ package postsApi
 
 import (
 	"net/http"
-	"peargram/bookmarks"
-	"peargram/likes"
+	"peargram/posts"
 	"strconv"
 
 	"github.com/gin-contrib/sessions"
@@ -20,13 +19,13 @@ func GETToggleLike(c *gin.Context) {
 		return
 	}
 
-	err = likes.ToggleLike(username, postID)
+	err = posts.ToggleLike(username, postID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error while (un)liking the post."})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"likes": likes.GetLikes(postID)})
+	c.JSON(http.StatusOK, gin.H{"likes": posts.GetLikes(postID)})
 }
 
 func GetToggleBookmark(c *gin.Context) {
@@ -39,7 +38,7 @@ func GetToggleBookmark(c *gin.Context) {
 		return
 	}
 
-	err = bookmarks.ToggleBookmark(username, postID)
+	err = posts.ToggleBookmark(username, postID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error while (un)bookmarking the post."})
 		return

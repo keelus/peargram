@@ -5,9 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"peargram/bookmarks"
 	"peargram/follows"
-	"peargram/likes"
 	"peargram/messages"
 	"peargram/models"
 	"peargram/notifications"
@@ -112,7 +110,7 @@ func NotificationsPane(c *gin.Context) {
 func ProfilePane(c *gin.Context) {
 	username := c.Param("username")
 
-	ProfilePosts := posts.GetPosts(username)
+	ProfilePosts := posts.GetUserPosts(username)
 	selfProfile := false
 
 	session := sessions.Default(c)
@@ -133,7 +131,7 @@ func ProfilePane(c *gin.Context) {
 		return
 	}
 
-	profileData.PostAmount = posts.GetPostAmount(username)
+	profileData.PostAmount = posts.GetUserPostAmount(username)
 	profileData.FollowingAmount = follows.GetFollowingAmount(username)
 	profileData.FollowerAmount = follows.GetFollowerAmount(username)
 
@@ -239,7 +237,7 @@ func ActivityPane(c *gin.Context) {
 	session := sessions.Default(c)
 	currentUsername := session.Get("Username").(string)
 
-	likedPosts := likes.GetLikedPosts(currentUsername)
+	likedPosts := posts.GetLikedPosts(currentUsername)
 
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "activity", gin.H{
@@ -258,7 +256,7 @@ func SavedPane(c *gin.Context) {
 	session := sessions.Default(c)
 	currentUsername := session.Get("Username").(string)
 
-	savedPosts := bookmarks.GetBookmarkedPosts(currentUsername)
+	savedPosts := posts.GetBookmarkedPosts(currentUsername)
 
 	if c.Query("type") == "short" {
 		c.HTML(http.StatusOK, "saved", gin.H{

@@ -129,4 +129,4 @@ function print() {
     console.log(ACTIVE_PANE);
     setTimeout(print, 500);
 }
-document.addEventListener("DOMContentLoaded", () => { UpdateActivePane(), print(); });
+document.addEventListener("DOMContentLoaded", () => { UpdateActivePane(); /*, print()*/ });

@@ -15,72 +15,80 @@
 			</div>
 			<div class="bottom">
 				<div class="actions">
-					<div class="button">
+					<div class="button likeButton" post-id="{{- .Post.ID -}}">
 						<i class="ti ti-heart{{- if hasLiked .User.Username .Post.ID -}}-filled{{- end -}}"></i>
 					</div>
-					<div class="button">
+					<div class="button EmbeddedLoad" target="post" detail="{{ .Post.ID }}">
 						<i class="ti ti-message-circle-2"></i>
 					</div>
-					<div class="button">
+					<div class="button" style="opacity:.6;">
 						<i class="ti ti-send"></i>
 					</div>
-					<div class="button">
+					<div class="button bookmarkButton" post-id="{{- .Post.ID -}}">
 						<i class="ti ti-bookmark{{- if hasBookmarked .User.Username .Post.ID -}}-filled{{- end -}}"></i>
 					</div>
 				</div>
 				<div class="likes">{{ .Post.Likes }} likes</div>
 				<div class="comments">
-					<div class="commentBlock">
-						<div class="comment">
-							<div class="avatarParent">
-								<div class="header">
-									<div class="avatar EmbeddedLoad" target="profile" detail="COMMENT_USER" style="background-image:url(/api/users/getAvatar/COMMENT_USER)"></div>
-								</div>
-							</div>
-							<div class="content">
-								<div class="header">
-									<div class="details">
-										<div class="username EmbeddedLoad" target="profile" detail="COMMENT_USER">COMMENT_USER</div>
-										<div class="date">DATE</div>
-									</div>
-								</div>
-								<div class="text">COMMENT_TEXT</div>
-								<div class="stats">
-									<div class="likes">COMMENT_LIKES likes</div>
-									<div class="replyButton">Reply</div>
-								</div>
-								<div class="viewRepliesButton">View all COMMENT_REPLIES replies</div>
-							</div>
-							<div class="likeParent">
-								<div class="likeButton"><i class="ti ti-heart"></i></div>
-							</div>
-						</div>
-						<div class="replies">
-							<div class="comment">
-								<div class="avatarParent">
-									<div class="header">
-										<div class="avatar EmbeddedLoad" target="profile" detail="COMMENT_REPLY_USER" style="background-image:url(/api/users/getAvatar/COMMENT_REPLY_USER)"></div>
-									</div>
-								</div>
-								<div class="content">
-									<div class="header">
-										<div class="details">
-											<div class="username EmbeddedLoad" target="profile" detail="COMMENT_REPLY_USER">COMMENT_REPLY_USER</div>
-											<div class="date">DATE</div>
+					{{ range $i, $CommentBlock := renderCommentBlock .Post.Comments}}
+						<div class="commentBlock">
+								<div class="comment">
+									<div class="avatarParent">
+										<div class="header">
+											<div class="avatar EmbeddedLoad" target="profile" detail="COMMENT_USER" style="background-image:url(/api/users/getAvatar/{{- $CommentBlock.ParentComment.Actor -}})"></div>
 										</div>
 									</div>
-									<div class="text">COMMENT_REPLY_TEXT</div>
-									<div class="stats">
-										<div class="likes">COMMENT_REPLY_LIKES likes</div>
-										<div class="replyButton">Reply</div>
+									<div class="content">
+										<div class="header">
+											<div class="details">
+												<div class="username EmbeddedLoad" target="profile" detail="COMMENT_USER">{{- $CommentBlock.ParentComment.Actor -}}</div>
+												<div class="date">{{ renderDateShort $CommentBlock.ParentComment.Date }}</div>
+											</div>
+										</div>
+										<div class="text">{{ $CommentBlock.ParentComment.Content }}</div>
+										<div class="stats">
+											<div class="likes">COMMENT_LIKES likes</div>
+											<div class="replyButton">Reply</div>
+										</div>
+										{{ if (gt (len $CommentBlock.ChildrenComments) 10)}}
+											<div class="viewRepliesButton">View all COMMENT_REPLIES replies</div>
+										{{ end }}
+									</div>
+									<div class="likeParent">
+										<div class="likeButton"><i class="ti ti-heart"></i></div>
 									</div>
 								</div>
-								<div class="likeParent">
-									<div class="likeButton"><i class="ti ti-heart"></i></div>
+								{{ if (gt (len $CommentBlock.ChildrenComments) 0)}}
+								<div class="replies">
+									{{ range $j, $Comment := $CommentBlock.ChildrenComments}}
+										<div class="comment">
+											<div class="avatarParent">
+												<div class="header">
+													<div class="avatar EmbeddedLoad" target="profile" detail="COMMENT_REPLY_USER" style="background-image:url(/api/users/getAvatar/{{- $Comment.Actor -}})"></div>
+												</div>
+											</div>
+											<div class="content">
+												<div class="header">
+													<div class="details">
+														<div class="username EmbeddedLoad" target="profile" detail="COMMENT_REPLY_USER">{{- $Comment.Actor -}}</div>
+														<div class="date">{{- renderDateShort $Comment.Date -}}</div>
+													</div>
+												</div>
+												<div class="text">{{- $Comment.Content -}}</div>
+												<div class="stats">
+													<div class="likes">COMMENT_REPLY_LIKES likes</div>
+													<div class="replyButton">Reply</div>
+												</div>
+											</div>
+											<div class="likeParent">
+												<div class="likeButton"><i class="ti ti-heart"></i></div>
+											</div>
+										</div>
+									{{ end }}
 								</div>
-							</div>
+								{{ end }}
 						</div>
-					</div>
+					{{ end }}
 				</div>
 				<div class="replyInput">
 					<div class="avatar" style="background-image:url(/api/users/getAvatar/{{- .User.Username -}})"></div>
