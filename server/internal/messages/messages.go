@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"peargram/database"
 	"peargram/models"
+	"peargram/server/internal/users"
 	wsHandler "peargram/server/websocketing/handler"
 	"peargram/server/websocketing/ws"
-	"peargram/users"
 	"sort"
 	"time"
 )

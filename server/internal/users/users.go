@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 	"peargram/database"
-	"peargram/follows"
 	"peargram/models"
-	"peargram/posts"
+	"peargram/server/internal/follows"
+	"peargram/server/internal/posts"
 	"peargram/utils"
 
 	"github.com/gin-contrib/sessions"

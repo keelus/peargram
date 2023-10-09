@@ -2,7 +2,7 @@ package usersApi
 
 import (
 	"net/http"
-	"peargram/users"
+	"peargram/server/internal/users"
 
 	"github.com/gin-gonic/gin"
 )

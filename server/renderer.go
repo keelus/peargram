@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"math"
 	"peargram/models"
-	"peargram/posts"
+	"peargram/server/internal/posts"
 	"strings"
 	"time"
 

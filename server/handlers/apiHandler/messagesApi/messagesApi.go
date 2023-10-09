@@ -3,7 +3,7 @@ package messagesApi
 import (
 	"fmt"
 	"net/http"
-	"peargram/messages"
+	"peargram/server/internal/messages"
 	"strconv"
 
 	"github.com/gin-contrib/sessions"

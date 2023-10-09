@@ -2,7 +2,7 @@ package notificationsApi
 
 import (
 	"net/http"
-	"peargram/notifications"
+	"peargram/server/internal/notifications"
 
 	"github.com/gin-gonic/gin"
 )

@@ -2,15 +2,15 @@ package server
 
 import (
 	"net/http"
-	"peargram/posts"
 	"peargram/server/handlers/apiHandler"
 	"peargram/server/handlers/apiHandler/messagesApi"
 	"peargram/server/handlers/apiHandler/notificationsApi"
 	"peargram/server/handlers/apiHandler/postsApi"
 	"peargram/server/handlers/apiHandler/usersApi"
 	"peargram/server/handlers/paneHandler"
+	"peargram/server/internal/posts"
+	"peargram/server/internal/users"
 	"peargram/server/websocketing/handler"
-	"peargram/users"
 	"peargram/utils"
 
 	"github.com/gin-contrib/sessions"

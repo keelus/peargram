@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"peargram/follows"
-	"peargram/messages"
 	"peargram/models"
-	"peargram/notifications"
-	"peargram/posts"
-	"peargram/users"
+	"peargram/server/internal/follows"
+	"peargram/server/internal/messages"
+	"peargram/server/internal/notifications"
+	"peargram/server/internal/posts"
+	"peargram/server/internal/users"
 	"peargram/utils"
 
 	"github.com/gin-contrib/sessions"

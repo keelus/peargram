@@ -6,8 +6,7 @@ import (
 )
 
 func GetComments(postID int) []models.Comment {
-	var comments []models.Comment
-	// comments := make([]models.Comment, 0)
+	comments := make([]models.Comment, 0)
 
 	DB := database.ConnectDB()
 	DB.Select(&comments, "SELECT * FROM comments WHERE postID=?", postID)

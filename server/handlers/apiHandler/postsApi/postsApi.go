@@ -2,7 +2,7 @@ package postsApi
 
 import (
 	"net/http"
-	"peargram/posts"
+	"peargram/server/internal/posts"
 	"strconv"
 
 	"github.com/gin-contrib/sessions"
